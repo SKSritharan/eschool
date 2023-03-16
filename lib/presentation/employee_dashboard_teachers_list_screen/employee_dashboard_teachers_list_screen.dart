@@ -65,14 +65,14 @@ class EmployeeDashboardTeachersListScreen
                               mainAxisAlignment: MainAxisAlignment.center,
                               children: [
                                 CustomButton(
-                                    height: getVerticalSize(37),
-                                    width: getHorizontalSize(121),
-                                    text: "lbl_teacher".tr,
-                                    variant: ButtonVariant.OutlineBlack90019_1,
-                                    shape: ButtonShape.RoundedBorder5,
-                                    fontStyle:
-                                    ButtonFontStyle.RalewaySemiBold14WhiteA700,
-                                    ),
+                                  height: getVerticalSize(37),
+                                  width: getHorizontalSize(121),
+                                  text: "lbl_teacher".tr,
+                                  variant: ButtonVariant.OutlineBlack90019_1,
+                                  shape: ButtonShape.RoundedBorder5,
+                                  fontStyle: ButtonFontStyle
+                                      .RalewaySemiBold14WhiteA700,
+                                ),
                                 CustomButton(
                                     height: getVerticalSize(37),
                                     width: getHorizontalSize(121),

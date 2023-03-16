@@ -11,7 +11,7 @@ class SplashController extends GetxController {
   @override
   void onReady() {
     super.onReady();
-     // Wait until the authentication process finishes
+    // Wait until the authentication process finishes
     User? user = _auth.currentUser;
     FirebaseAuth.instance.authStateChanges().listen((User? user) async {
       if (user == null) {

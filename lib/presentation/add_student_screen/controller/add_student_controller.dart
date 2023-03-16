@@ -52,7 +52,7 @@ class AddStudentController extends GetxController {
     try {
       // Create the user account using Firebase Authentication
       UserCredential userCredential =
-      await FirebaseAuth.instance.createUserWithEmailAndPassword(
+          await FirebaseAuth.instance.createUserWithEmailAndPassword(
         email: studentEmailController.text,
         password: studentPhoneController.text,
       );
@@ -75,7 +75,6 @@ class AddStudentController extends GetxController {
       print('Error creating teacher account: $e');
     }
   }
-
 
   @override
   void onClose() {

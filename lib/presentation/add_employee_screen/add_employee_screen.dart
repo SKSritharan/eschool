@@ -15,7 +15,8 @@ import 'package:flutter/material.dart';
 // ignore_for_file: must_be_immutable
 class AddEmployeeScreen extends GetWidget<AddEmployeeController> {
   GlobalKey<FormState> _formKey = GlobalKey<FormState>();
-  final AddEmployeeController submitControllerEmployee = Get.put(AddEmployeeController());
+  final AddEmployeeController submitControllerEmployee =
+      Get.put(AddEmployeeController());
   @override
   Widget build(BuildContext context) {
     return SafeArea(
@@ -51,8 +52,10 @@ class AddEmployeeScreen extends GetWidget<AddEmployeeController> {
                                   height: getVerticalSize(105),
                                   width: getHorizontalSize(100),
                                   child: Column(
-                                      crossAxisAlignment: CrossAxisAlignment.start,
-                                      mainAxisAlignment: MainAxisAlignment.start,
+                                      crossAxisAlignment:
+                                          CrossAxisAlignment.start,
+                                      mainAxisAlignment:
+                                          MainAxisAlignment.start,
                                       children: [
                                         Align(
                                           alignment: Alignment.center,
@@ -62,14 +65,13 @@ class AddEmployeeScreen extends GetWidget<AddEmployeeController> {
                                             child: CustomImagePicker(
                                               onImageSelected: (File image) {
                                                 // pass the selected image to the add teacher controller
-                                                submitControllerEmployee.uploadEmployeeImage(image);
+                                                submitControllerEmployee
+                                                    .uploadEmployeeImage(image);
                                               },
                                               size: 50,
                                             ),
                                           ),
-                                        )
-
-,
+                                        ),
                                       ]))),
                           Text("lbl_name".tr,
                               overflow: TextOverflow.ellipsis,
@@ -123,16 +125,17 @@ class AddEmployeeScreen extends GetWidget<AddEmployeeController> {
                                 }
                                 return null;
                               }),
-                    Padding(
-                      padding: getPadding(top: 18),
-                      child: Text("lbl_date_of_birth".tr,
-                          overflow: TextOverflow.ellipsis,
-                          textAlign: TextAlign.left,
-                          style: AppStyle.txtPoppinsMedium14),
-                    ),
-                    CustomDatePicker(
-                      textEditingController: controller.employeeDobController,
-                    ),
+                          Padding(
+                            padding: getPadding(top: 18),
+                            child: Text("lbl_date_of_birth".tr,
+                                overflow: TextOverflow.ellipsis,
+                                textAlign: TextAlign.left,
+                                style: AppStyle.txtPoppinsMedium14),
+                          ),
+                          CustomDatePicker(
+                            textEditingController:
+                                controller.employeeDobController,
+                          ),
                           Spacer(),
                           CustomButton(
                               height: getVerticalSize(45),

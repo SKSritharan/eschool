@@ -5,7 +5,6 @@ import 'package:flutter/material.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 
-
 import 'package:eschool/core/app_export.dart';
 import 'package:eschool/presentation/add_teacher_screen/models/add_teacher_model.dart';
 
@@ -49,8 +48,8 @@ class AddTeacherController extends GetxController {
       // Create the user account using Firebase Authentication
       UserCredential userCredential =
           await FirebaseAuth.instance.createUserWithEmailAndPassword(
-        email: teacherNameController.text,
-        password: teacherEmailController.text,
+        email: teacherEmailController.text,
+        password: teacherPhoneController.text,
       );
 
       // Store the user profile information in Firestore
@@ -59,7 +58,7 @@ class AddTeacherController extends GetxController {
           .doc(userCredential.user!.uid)
           .set({
         'name': teacherNameController.text,
-        'email': teacherEmailController.text,
+        'email': teacherEmailController.text.trim(),
         'phoneNo': teacherPhoneController.text,
         'dob': teacherDobController.text,
         'role': 'teacher',

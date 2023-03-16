@@ -1,3 +1,4 @@
+import '../../data/models/Teacher.dart';
 import '../admin_teachers_list_page/widgets/listrectangleone4_item_widget.dart';
 import 'controller/admin_teachers_list_controller.dart';
 import 'models/admin_teachers_list_model.dart';
@@ -7,8 +8,8 @@ import 'package:flutter/material.dart';
 
 // ignore_for_file: must_be_immutable
 class AdminTeachersListPage extends StatelessWidget {
-  AdminTeachersListController controller =
-      Get.put(AdminTeachersListController(AdminTeachersListModel().obs));
+  final AdminTeachersListController controller =
+      Get.put(AdminTeachersListController());
 
   @override
   Widget build(BuildContext context) {
@@ -16,42 +17,53 @@ class AdminTeachersListPage extends StatelessWidget {
       child: Scaffold(
         backgroundColor: Colors.transparent,
         body: Container(
-          width: double.maxFinite,
-          child: Column(
-            mainAxisAlignment: MainAxisAlignment.start,
-            children: [
-              Padding(
-                padding: getPadding(
-                  left: 18,
-                  top: 31,
-                  right: 18,
-                ),
-                child: Obx(
-                  () => ListView.separated(
-                    physics: NeverScrollableScrollPhysics(),
-                    shrinkWrap: true,
-                    separatorBuilder: (context, index) {
-                      return SizedBox(
-                        height: getVerticalSize(
-                          13,
+          padding: EdgeInsets.all(10),
+          child: StreamBuilder<List<Teacher>>(
+            stream: controller.teachersStream,
+            builder: (context, snapshot) {
+              if (snapshot.hasData) {
+                final teachers = snapshot.data!;
+                return ListView.builder(
+                  itemCount: teachers.length,
+                  itemBuilder: (context, index) {
+                    final teacher = teachers[index];
+                    return Container(
+                      padding: EdgeInsets.only(top: 5, bottom: 2),
+                      child: Card(
+                        shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(15),
                         ),
-                      );
-                    },
-                    itemCount: controller.adminTeachersListModelObj.value
-                        .listrectangleone4ItemList.length,
-                    itemBuilder: (context, index) {
-                      Listrectangleone4ItemModel model = controller
-                          .adminTeachersListModelObj
-                          .value
-                          .listrectangleone4ItemList[index];
-                      return Listrectangleone4ItemWidget(
-                        model,
-                      );
-                    },
-                  ),
-                ),
-              ),
-            ],
+                        elevation: 5,
+                        shadowColor: Colors.blueGrey.shade700,
+                        child: ListTile(
+                          leading: CircleAvatar(
+                            backgroundImage: NetworkImage(teacher.image),
+                          ),
+                          title: Text(
+                            teacher.name,
+                            textAlign: TextAlign.left,
+                            style: TextStyle(fontWeight: FontWeight.bold),
+                          ),
+                          subtitle: Text(
+                            teacher.subject,
+                            textAlign: TextAlign.left,
+                          ),
+                          onTap: () {},
+                        ),
+                      ),
+                    );
+                  },
+                );
+              } else if (snapshot.hasError) {
+                return Center(
+                  child: Text('Error fetching teachers'),
+                );
+              } else {
+                return Center(
+                  child: CircularProgressIndicator(),
+                );
+              }
+            },
           ),
         ),
       ),

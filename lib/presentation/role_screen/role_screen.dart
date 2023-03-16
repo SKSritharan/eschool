@@ -26,209 +26,219 @@ class RoleScreen extends GetWidget<RoleController> {
                               textAlign: TextAlign.left,
                               style: AppStyle.txtRalewayRomanBold20.copyWith(
                                   letterSpacing: getHorizontalSize(0.6)))),
-                Padding(
-                  padding: getPadding(top: 20,right: 45,left: 45),
-                  child: Column(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    children: [
-                      Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                        children: [
-                          GestureDetector(
-                            onTap: (){
-                              Get.toNamed(AppRoutes.signInScreen);
-                            } ,
-                            child: Container(
-                              padding: getPadding(
-                                all: 32,
-                              ),
-                              decoration: AppDecoration.outlineBlack9003f.copyWith(
-                                borderRadius: BorderRadiusStyle.roundedBorder14,
-                              ),
-                              child: Column(
-                                mainAxisSize: MainAxisSize.min,
-                                mainAxisAlignment: MainAxisAlignment.center,
-                                children: [
-                                  CustomImageView(
-                                    imagePath: ImageConstant.imgAdministratormale,
-                                    height: getSize(
-                                      96,
+                      Padding(
+                        padding: getPadding(top: 20, right: 45, left: 45),
+                        child: Column(
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          children: [
+                            Row(
+                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                              children: [
+                                GestureDetector(
+                                  onTap: () {
+                                    Get.toNamed(AppRoutes.signInScreen);
+                                  },
+                                  child: Container(
+                                    padding: getPadding(
+                                      all: 32,
                                     ),
-                                    width: getSize(
-                                      96,
+                                    decoration: AppDecoration.outlineBlack9003f
+                                        .copyWith(
+                                      borderRadius:
+                                          BorderRadiusStyle.roundedBorder14,
                                     ),
-                                    margin: getMargin(
-                                      top: 4,
-                                    ),
-                                  ),
-
-                                  Text(
-                                    "Admin",
-                                    overflow: TextOverflow.ellipsis,
-                                    textAlign: TextAlign.left,
-                                    style: AppStyle.txtRalewaySemiBold15Gray900.copyWith(
-                                      letterSpacing: getHorizontalSize(
-                                        0.3,
-                                      ),
-                                    ),
-                                  ),
-
-                                ],
-                              ),
-                            ),
-                          ),
-                          GestureDetector(
-                            onTap: (){
-                              Get.toNamed(AppRoutes.signInScreen);
-                            },
-                            child: Container(
-                              padding: getPadding(
-                                all: 32,
-                              ),
-                              decoration: AppDecoration.outlineBlack9003f.copyWith(
-                                borderRadius: BorderRadiusStyle.roundedBorder14,
-                              ),
-                              child: Column(
-                                mainAxisSize: MainAxisSize.min,
-                                mainAxisAlignment: MainAxisAlignment.center,
-                                children: [
-                                  CustomImageView(
-                                    imagePath: ImageConstant.imgManager,
-                                    height: getSize(
-                                      96,
-                                    ),
-                                    width: getSize(
-                                      96,
-                                    ),
-                                    margin: getMargin(
-                                      top: 4,
+                                    child: Column(
+                                      mainAxisSize: MainAxisSize.min,
+                                      mainAxisAlignment:
+                                          MainAxisAlignment.center,
+                                      children: [
+                                        CustomImageView(
+                                          imagePath: ImageConstant
+                                              .imgAdministratormale,
+                                          height: getSize(
+                                            96,
+                                          ),
+                                          width: getSize(
+                                            96,
+                                          ),
+                                          margin: getMargin(
+                                            top: 4,
+                                          ),
+                                        ),
+                                        Text(
+                                          "Admin",
+                                          overflow: TextOverflow.ellipsis,
+                                          textAlign: TextAlign.left,
+                                          style: AppStyle
+                                              .txtRalewaySemiBold15Gray900
+                                              .copyWith(
+                                            letterSpacing: getHorizontalSize(
+                                              0.3,
+                                            ),
+                                          ),
+                                        ),
+                                      ],
                                     ),
                                   ),
-
-                                  Text(
-                                    "Teacher",
-                                    overflow: TextOverflow.ellipsis,
-                                    textAlign: TextAlign.left,
-                                    style: AppStyle.txtRalewaySemiBold15Gray900.copyWith(
-                                      letterSpacing: getHorizontalSize(
-                                        0.3,
-                                      ),
+                                ),
+                                GestureDetector(
+                                  onTap: () {
+                                    Get.toNamed(AppRoutes.signInScreen);
+                                  },
+                                  child: Container(
+                                    padding: getPadding(
+                                      all: 32,
+                                    ),
+                                    decoration: AppDecoration.outlineBlack9003f
+                                        .copyWith(
+                                      borderRadius:
+                                          BorderRadiusStyle.roundedBorder14,
+                                    ),
+                                    child: Column(
+                                      mainAxisSize: MainAxisSize.min,
+                                      mainAxisAlignment:
+                                          MainAxisAlignment.center,
+                                      children: [
+                                        CustomImageView(
+                                          imagePath: ImageConstant.imgManager,
+                                          height: getSize(
+                                            96,
+                                          ),
+                                          width: getSize(
+                                            96,
+                                          ),
+                                          margin: getMargin(
+                                            top: 4,
+                                          ),
+                                        ),
+                                        Text(
+                                          "Teacher",
+                                          overflow: TextOverflow.ellipsis,
+                                          textAlign: TextAlign.left,
+                                          style: AppStyle
+                                              .txtRalewaySemiBold15Gray900
+                                              .copyWith(
+                                            letterSpacing: getHorizontalSize(
+                                              0.3,
+                                            ),
+                                          ),
+                                        ),
+                                      ],
                                     ),
                                   ),
-
-                                ],
-                              ),
-                            ),
-                          )
-
-                        ],
-                      )
-                    ],
-
-                  ),
-                ),
-
-                Padding(
-                  padding: getPadding(top: 18,right: 45,left: 45),
-                  child: Column(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    children: [
-                      Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                        children: [
-                          GestureDetector(
-                            onTap: (){
-                              Get.toNamed(AppRoutes.signInScreen);
-                            },
-                            child: Container(
-                              padding: getPadding(
-                                all: 32,
-                              ),
-                              decoration: AppDecoration.outlineBlack9003f.copyWith(
-                                borderRadius: BorderRadiusStyle.roundedBorder14,
-                              ),
-                              child: Column(
-                                mainAxisSize: MainAxisSize.min,
-                                mainAxisAlignment: MainAxisAlignment.center,
-                                children: [
-                                  CustomImageView(
-                                    imagePath: ImageConstant.imgStudentmale,
-                                    height: getSize(
-                                      96,
+                                )
+                              ],
+                            )
+                          ],
+                        ),
+                      ),
+                      Padding(
+                        padding: getPadding(top: 18, right: 45, left: 45),
+                        child: Column(
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          children: [
+                            Row(
+                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                              children: [
+                                GestureDetector(
+                                  onTap: () {
+                                    Get.toNamed(AppRoutes.signInScreen);
+                                  },
+                                  child: Container(
+                                    padding: getPadding(
+                                      all: 32,
                                     ),
-                                    width: getSize(
-                                      96,
+                                    decoration: AppDecoration.outlineBlack9003f
+                                        .copyWith(
+                                      borderRadius:
+                                          BorderRadiusStyle.roundedBorder14,
                                     ),
-                                    margin: getMargin(
-                                      top: 4,
-                                    ),
-                                  ),
-
-                                  Text(
-                                    "Student",
-                                    overflow: TextOverflow.ellipsis,
-                                    textAlign: TextAlign.left,
-                                    style: AppStyle.txtRalewaySemiBold15Gray900.copyWith(
-                                      letterSpacing: getHorizontalSize(
-                                        0.3,
-                                      ),
-                                    ),
-                                  ),
-
-                                ],
-                              ),
-                            ),
-                          ),
-                          GestureDetector(
-                            onTap: (){
-                              Get.toNamed(AppRoutes.signInScreen);
-                            },
-                            child: Container(
-                              padding: getPadding(
-                                all: 32,
-                              ),
-                              decoration: AppDecoration.outlineBlack9003f.copyWith(
-                                borderRadius: BorderRadiusStyle.roundedBorder14,
-                              ),
-                              child: Column(
-                                mainAxisSize: MainAxisSize.min,
-                                mainAxisAlignment: MainAxisAlignment.center,
-                                children: [
-                                  CustomImageView(
-                                    imagePath: ImageConstant.imgCollaboratormale,
-                                    height: getSize(
-                                      96,
-                                    ),
-                                    width: getSize(
-                                      96,
-                                    ),
-                                    margin: getMargin(
-                                      top: 4,
+                                    child: Column(
+                                      mainAxisSize: MainAxisSize.min,
+                                      mainAxisAlignment:
+                                          MainAxisAlignment.center,
+                                      children: [
+                                        CustomImageView(
+                                          imagePath:
+                                              ImageConstant.imgStudentmale,
+                                          height: getSize(
+                                            96,
+                                          ),
+                                          width: getSize(
+                                            96,
+                                          ),
+                                          margin: getMargin(
+                                            top: 4,
+                                          ),
+                                        ),
+                                        Text(
+                                          "Student",
+                                          overflow: TextOverflow.ellipsis,
+                                          textAlign: TextAlign.left,
+                                          style: AppStyle
+                                              .txtRalewaySemiBold15Gray900
+                                              .copyWith(
+                                            letterSpacing: getHorizontalSize(
+                                              0.3,
+                                            ),
+                                          ),
+                                        ),
+                                      ],
                                     ),
                                   ),
-
-                                  Text(
-                                    "Emoloyee",
-                                    overflow: TextOverflow.ellipsis,
-                                    textAlign: TextAlign.left,
-                                    style: AppStyle.txtRalewaySemiBold15Gray900.copyWith(
-                                      letterSpacing: getHorizontalSize(
-                                        0.3,
-                                      ),
+                                ),
+                                GestureDetector(
+                                  onTap: () {
+                                    Get.toNamed(AppRoutes.signInScreen);
+                                  },
+                                  child: Container(
+                                    padding: getPadding(
+                                      all: 32,
+                                    ),
+                                    decoration: AppDecoration.outlineBlack9003f
+                                        .copyWith(
+                                      borderRadius:
+                                          BorderRadiusStyle.roundedBorder14,
+                                    ),
+                                    child: Column(
+                                      mainAxisSize: MainAxisSize.min,
+                                      mainAxisAlignment:
+                                          MainAxisAlignment.center,
+                                      children: [
+                                        CustomImageView(
+                                          imagePath:
+                                              ImageConstant.imgCollaboratormale,
+                                          height: getSize(
+                                            96,
+                                          ),
+                                          width: getSize(
+                                            96,
+                                          ),
+                                          margin: getMargin(
+                                            top: 4,
+                                          ),
+                                        ),
+                                        Text(
+                                          "Emoloyee",
+                                          overflow: TextOverflow.ellipsis,
+                                          textAlign: TextAlign.left,
+                                          style: AppStyle
+                                              .txtRalewaySemiBold15Gray900
+                                              .copyWith(
+                                            letterSpacing: getHorizontalSize(
+                                              0.3,
+                                            ),
+                                          ),
+                                        ),
+                                      ],
                                     ),
                                   ),
-
-                                ],
-                              ),
-                            ),
-                          )
-
-                        ],
-                      )
-                    ],
-
-                  ),
-                ),
+                                )
+                              ],
+                            )
+                          ],
+                        ),
+                      ),
                       CustomImageView(
                           svgPath: ImageConstant.imgBottomvector,
                           height: getVerticalSize(209),

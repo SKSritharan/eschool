@@ -15,7 +15,8 @@ import 'package:flutter/material.dart';
 // ignore_for_file: must_be_immutable
 class AddStudentScreen extends GetWidget<AddStudentController> {
   GlobalKey<FormState> _formKey = GlobalKey<FormState>();
-  final AddStudentController submitControllerStudent = Get.put(AddStudentController());
+  final AddStudentController submitControllerStudent =
+      Get.put(AddStudentController());
   @override
   Widget build(BuildContext context) {
     return SafeArea(
@@ -51,8 +52,10 @@ class AddStudentScreen extends GetWidget<AddStudentController> {
                                   height: getVerticalSize(105),
                                   width: getHorizontalSize(100),
                                   child: Column(
-                                      crossAxisAlignment: CrossAxisAlignment.start,
-                                      mainAxisAlignment: MainAxisAlignment.start,
+                                      crossAxisAlignment:
+                                          CrossAxisAlignment.start,
+                                      mainAxisAlignment:
+                                          MainAxisAlignment.start,
                                       children: [
                                         Align(
                                           alignment: Alignment.center,
@@ -62,7 +65,8 @@ class AddStudentScreen extends GetWidget<AddStudentController> {
                                             child: CustomImagePicker(
                                               onImageSelected: (File image) {
                                                 // pass the selected image to the add teacher controller
-                                                submitControllerStudent.uploadStudentImage(image);
+                                                submitControllerStudent
+                                                    .uploadStudentImage(image);
                                               },
                                               size: 50,
                                             ),
@@ -121,17 +125,17 @@ class AddStudentScreen extends GetWidget<AddStudentController> {
                                 }
                                 return null;
                               }),
-
-                    Padding(
-                      padding: getPadding(top: 18),
-                      child: Text("lbl_date_of_birth".tr,
-                          overflow: TextOverflow.ellipsis,
-                          textAlign: TextAlign.left,
-                          style: AppStyle.txtPoppinsMedium14),
-                    ),
-                    CustomDatePicker(
-                      textEditingController: controller.studentDobController,
-                    ),
+                          Padding(
+                            padding: getPadding(top: 18),
+                            child: Text("lbl_date_of_birth".tr,
+                                overflow: TextOverflow.ellipsis,
+                                textAlign: TextAlign.left,
+                                style: AppStyle.txtPoppinsMedium14),
+                          ),
+                          CustomDatePicker(
+                            textEditingController:
+                                controller.studentDobController,
+                          ),
                           Padding(
                               padding: getPadding(top: 18),
                               child: Text("lbl_class".tr,
@@ -156,8 +160,8 @@ class AddStudentScreen extends GetWidget<AddStudentController> {
   onTapArrowleft6() {
     Get.back();
   }
+
   onTapSubmit() {
     submitControllerStudent.createStudentAccount();
   }
 }
-

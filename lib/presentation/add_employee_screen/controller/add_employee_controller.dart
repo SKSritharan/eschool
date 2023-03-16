@@ -20,7 +20,6 @@ class AddEmployeeController extends GetxController {
 
   String? imageUrl;
 
-
   void uploadEmployeeImage(File image) {
     uploadImageToStorage(image);
   }
@@ -31,10 +30,7 @@ class AddEmployeeController extends GetxController {
 
   Future<void> uploadImageToStorage(File imageFile) async {
     try {
-      String fileName = DateTime
-          .now()
-          .millisecondsSinceEpoch
-          .toString();
+      String fileName = DateTime.now().millisecondsSinceEpoch.toString();
       Reference reference = _storage.ref().child('profile/$fileName');
       UploadTask uploadTask = reference.putFile(imageFile);
       TaskSnapshot taskSnapshot = await uploadTask;
@@ -43,7 +39,6 @@ class AddEmployeeController extends GetxController {
     } catch (e) {
       print('Error uploading image to Firebase Storage: $e');
     }
-
 
     @override
     void onReady() {
@@ -55,7 +50,7 @@ class AddEmployeeController extends GetxController {
     try {
       // Create the user account using Firebase Authentication
       UserCredential userCredential =
-      await FirebaseAuth.instance.createUserWithEmailAndPassword(
+          await FirebaseAuth.instance.createUserWithEmailAndPassword(
         email: employeeEmailController.text,
         password: employeePhoneController.text,
       );
@@ -78,7 +73,6 @@ class AddEmployeeController extends GetxController {
     }
   }
 
-
   @override
   void onClose() {
     super.onClose();
@@ -87,5 +81,4 @@ class AddEmployeeController extends GetxController {
     employeeDobController.dispose();
     employeePhoneController.dispose();
   }
-
 }

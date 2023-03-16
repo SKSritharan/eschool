@@ -65,16 +65,16 @@ class EmployeeDashboardStudentsListScreen
                               child: Row(
                                   mainAxisAlignment: MainAxisAlignment.end,
                                   children: [
-                                  CustomButton(
-                                  height: getVerticalSize(37),
-                            width: getHorizontalSize(121),
-                            text: "lbl_teacher".tr,
-                            variant: ButtonVariant.OutlineBlack90019,
-                            shape: ButtonShape.RoundedBorder5,
-                            fontStyle:
-                            ButtonFontStyle.RalewaySemiBold14,
-                                    onTap: onTabTeacher,
-                          ),
+                                    CustomButton(
+                                      height: getVerticalSize(37),
+                                      width: getHorizontalSize(121),
+                                      text: "lbl_teacher".tr,
+                                      variant: ButtonVariant.OutlineBlack90019,
+                                      shape: ButtonShape.RoundedBorder5,
+                                      fontStyle:
+                                          ButtonFontStyle.RalewaySemiBold14,
+                                      onTap: onTabTeacher,
+                                    ),
                                     CustomButton(
                                         height: getVerticalSize(37),
                                         width: getHorizontalSize(121),
@@ -122,9 +122,11 @@ class EmployeeDashboardStudentsListScreen
   onTapBtnFloatingactionbutton() {
     Get.toNamed(AppRoutes.addStudentScreen);
   }
+
   onTabTeacher() {
     Get.toNamed(AppRoutes.employeeDashboardTeachersListScreen);
   }
+
   onTapVolume1() {
     Get.toNamed(AppRoutes.announcementsListScreen);
   }

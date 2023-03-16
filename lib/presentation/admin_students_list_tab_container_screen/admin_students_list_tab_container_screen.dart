@@ -126,9 +126,11 @@ class AdminStudentsListTabContainerScreen
   onTapFloatingactionbuttonTeacher() {
     Get.toNamed(AppRoutes.addTeacherScreen);
   }
+
   onTapFloatingactionbuttonStudent() {
     Get.toNamed(AppRoutes.addStudentScreen);
   }
+
   onTapFloatingactionbuttonEmpoyee() {
     Get.toNamed(AppRoutes.addEmployeeScreen);
   }
