@@ -1,3 +1,4 @@
+import '../../data/models/student.dart';
 import '../teacher_dasboard_screen/widgets/listrectangleone2_item_widget.dart';
 import 'controller/teacher_dasboard_controller.dart';
 import 'models/listrectangleone2_item_model.dart';
@@ -48,23 +49,56 @@ class TeacherDasboardScreen extends GetWidget<TeacherDasboardController> {
                       ]))
                 ],
                 styleType: Style.bgFillBluegray700),
-            body: Padding(
-                padding: getPadding(left: 13, top: 19, right: 23, bottom: 174),
-                child: Obx(() => ListView.separated(
-                    physics: NeverScrollableScrollPhysics(),
-                    shrinkWrap: true,
-                    separatorBuilder: (context, index) {
-                      return SizedBox(height: getVerticalSize(13));
-                    },
-                    itemCount: controller.teacherDasboardModelObj.value
-                        .listrectangleone2ItemList.length,
-                    itemBuilder: (context, index) {
-                      Listrectangleone2ItemModel model = controller
-                          .teacherDasboardModelObj
-                          .value
-                          .listrectangleone2ItemList[index];
-                      return Listrectangleone2ItemWidget(model);
-                    }))),
+            body: Container(
+              padding: EdgeInsets.all(10),
+              child: StreamBuilder<List<Student>>(
+                stream: controller.studentsStream,
+                builder: (context, snapshot) {
+                  if (snapshot.hasData) {
+                    final students = snapshot.data!;
+                    return ListView.builder(
+                      itemCount: students.length,
+                      itemBuilder: (context, index) {
+                        final student = students[index];
+                        return Container(
+                          padding: EdgeInsets.only(top: 5, bottom: 2),
+                          child: Card(
+                            shape: RoundedRectangleBorder(
+                              borderRadius: BorderRadius.circular(15),
+                            ),
+                            elevation: 5,
+                            shadowColor: Colors.blueGrey.shade700,
+                            child: ListTile(
+                              leading: CircleAvatar(
+                                backgroundImage: NetworkImage(student.image),
+                              ),
+                              title: Text(
+                                student.name,
+                                textAlign: TextAlign.left,
+                                style: TextStyle(fontWeight: FontWeight.bold),
+                              ),
+                              subtitle: Text(
+                                student.phoneNo,
+                                textAlign: TextAlign.left,
+                              ),
+                              onTap: () {},
+                            ),
+                          ),
+                        );
+                      },
+                    );
+                  } else if (snapshot.hasError) {
+                    return Center(
+                      child: Text('Error fetching teachers'),
+                    );
+                  } else {
+                    return Center(
+                      child: CircularProgressIndicator(),
+                    );
+                  }
+                },
+              ),
+            ),
             floatingActionButton: CustomFloatingButton(
                 height: 44,
                 width: 44,

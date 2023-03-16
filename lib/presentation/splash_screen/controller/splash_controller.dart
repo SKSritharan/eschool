@@ -28,7 +28,7 @@ class SplashController extends GetxController {
         } else if (user_role == 'student') {
           Get.toNamed(AppRoutes.studentDashboardScreen);
         } else if (user_role == 'employee') {
-          Get.toNamed(AppRoutes.employeeDashboardTeachersListScreen);
+          Get.toNamed(AppRoutes.employeeTabContainerScreen);
         }
         // else {
         //   await _auth.signOut();

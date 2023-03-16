@@ -32,6 +32,9 @@ import 'package:eschool/presentation/app_navigation_screen/app_navigation_screen
 import 'package:eschool/presentation/app_navigation_screen/binding/app_navigation_binding.dart';
 import 'package:get/get.dart';
 
+import '../presentation/employee_tab_container/binding/employee_tab_container_binding.dart';
+import '../presentation/employee_tab_container/employee_tab_container_screen.dart';
+
 class AppRoutes {
   static const String splashScreen = '/splash_screen';
 
@@ -62,6 +65,9 @@ class AppRoutes {
   static const String adminStudentsListTabContainerScreen =
       '/admin_students_list_tab_container_screen';
 
+  static const String employeeTabContainerScreen =
+      '/employee_tab_container_screen';
+
   static const String adminEmployeeListPage = '/admin_employee_list_page';
 
   static const String passwordChangeScreen = '/password_change_screen';
@@ -77,6 +83,14 @@ class AppRoutes {
   static String initialRoute = '/initialRoute';
 
   static List<GetPage> pages = [
+    GetPage(
+      name: employeeTabContainerScreen,
+      page: () => EmployeeTebContainer(),
+      bindings: [
+        EmployeeTabContainerBinding(),
+      ],
+    ),
+
     GetPage(
       name: splashScreen,
       page: () => SplashScreen(),
