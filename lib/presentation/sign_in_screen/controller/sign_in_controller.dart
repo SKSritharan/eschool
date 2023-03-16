@@ -44,7 +44,7 @@ class SignInController extends GetxController {
         } else if (userRole == 'student') {
           Get.toNamed(AppRoutes.studentDashboardScreen);
         } else if (userRole == 'employee') {
-          Get.toNamed(AppRoutes.employeeDashboardTeachersListScreen);
+          Get.toNamed(AppRoutes.employeeTabContainerScreen);
         } else {
           print('Unknown user role');
         }
