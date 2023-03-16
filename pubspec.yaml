@@ -17,6 +17,7 @@ dependencies:
   firebase_auth: ^4.2.10
   firebase_storage: ^11.0.15
   cloud_firestore: ^4.4.4
+  image_picker: ^0.8.7
 dev_dependencies: 
   flutter_test: 
     sdk: flutter
@@ -25,6 +26,7 @@ flutter:
   assets: 
     - assets/
     - assets/images/
+    - assets/images/default_user.png
   fonts: 
     - family: Raleway
       fonts: 
