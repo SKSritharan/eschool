@@ -1,3 +1,8 @@
+import 'dart:io';
+
+import '../../widgets/custom_button.dart';
+import '../../widgets/custom_datepicker.dart';
+import '../../widgets/custom_imagepicker.dart';
 import 'controller/add_employee_controller.dart';
 import 'package:eschool/core/app_export.dart';
 import 'package:eschool/core/utils/validation_functions.dart';
@@ -10,7 +15,7 @@ import 'package:flutter/material.dart';
 // ignore_for_file: must_be_immutable
 class AddEmployeeScreen extends GetWidget<AddEmployeeController> {
   GlobalKey<FormState> _formKey = GlobalKey<FormState>();
-
+  final AddEmployeeController submitControllerEmployee = Get.put(AddEmployeeController());
   @override
   Widget build(BuildContext context) {
     return SafeArea(
@@ -45,24 +50,26 @@ class AddEmployeeScreen extends GetWidget<AddEmployeeController> {
                               child: Container(
                                   height: getVerticalSize(105),
                                   width: getHorizontalSize(100),
-                                  child: Stack(
-                                      alignment: Alignment.bottomRight,
+                                  child: Column(
+                                      crossAxisAlignment: CrossAxisAlignment.start,
+                                      mainAxisAlignment: MainAxisAlignment.start,
                                       children: [
-                                        CustomImageView(
-                                            imagePath:
-                                                ImageConstant.imgEllipse34,
-                                            height: getSize(100),
-                                            width: getSize(100),
-                                            radius: BorderRadius.circular(
-                                                getHorizontalSize(50)),
-                                            alignment: Alignment.topCenter),
-                                        CustomImageView(
-                                            svgPath:
-                                                ImageConstant.imgUploadbutton,
-                                            height: getVerticalSize(31),
-                                            width: getHorizontalSize(32),
-                                            alignment: Alignment.bottomRight,
-                                            margin: getMargin(right: 3))
+                                        Align(
+                                          alignment: Alignment.center,
+                                          child: Container(
+                                            height: getVerticalSize(105),
+                                            width: getHorizontalSize(100),
+                                            child: CustomImagePicker(
+                                              onImageSelected: (File image) {
+                                                // pass the selected image to the add teacher controller
+                                                submitControllerEmployee.uploadEmployeeImage(image);
+                                              },
+                                              size: 50,
+                                            ),
+                                          ),
+                                        )
+
+,
                                       ]))),
                           Text("lbl_name".tr,
                               overflow: TextOverflow.ellipsis,
@@ -70,7 +77,7 @@ class AddEmployeeScreen extends GetWidget<AddEmployeeController> {
                               style: AppStyle.txtPoppinsMedium14),
                           CustomTextFormField(
                               focusNode: FocusNode(),
-                              controller: controller.groupTwentyThreeController,
+                              controller: controller.employeeNameController,
                               hintText: "lbl_full_name".tr,
                               margin: getMargin(top: 2),
                               validator: (value) {
@@ -87,7 +94,7 @@ class AddEmployeeScreen extends GetWidget<AddEmployeeController> {
                                   style: AppStyle.txtPoppinsMedium14)),
                           CustomTextFormField(
                               focusNode: FocusNode(),
-                              controller: controller.groupTwentyTwoController,
+                              controller: controller.employeeEmailController,
                               hintText: "lbl_email_address".tr,
                               margin: getMargin(top: 2),
                               textInputType: TextInputType.emailAddress,
@@ -106,7 +113,7 @@ class AddEmployeeScreen extends GetWidget<AddEmployeeController> {
                                   style: AppStyle.txtPoppinsMedium14)),
                           CustomTextFormField(
                               focusNode: FocusNode(),
-                              controller: controller.groupTwentyOneController,
+                              controller: controller.employeePhoneController,
                               hintText: "lbl_phone_number".tr,
                               margin: getMargin(top: 5),
                               textInputType: TextInputType.phone,
@@ -116,35 +123,31 @@ class AddEmployeeScreen extends GetWidget<AddEmployeeController> {
                                 }
                                 return null;
                               }),
-                          Padding(
-                              padding: getPadding(top: 18),
-                              child: Text("lbl_date_of_birth".tr,
-                                  overflow: TextOverflow.ellipsis,
-                                  textAlign: TextAlign.left,
-                                  style: AppStyle.txtPoppinsMedium14)),
-                          CustomTextFormField(
-                              focusNode: FocusNode(),
-                              controller: controller.groupTwentyController,
-                              hintText: "lbl_mm_dd_yyyy".tr,
-                              margin: getMargin(top: 2),
-                              textInputAction: TextInputAction.done),
+                    Padding(
+                      padding: getPadding(top: 18),
+                      child: Text("lbl_date_of_birth".tr,
+                          overflow: TextOverflow.ellipsis,
+                          textAlign: TextAlign.left,
+                          style: AppStyle.txtPoppinsMedium14),
+                    ),
+                    CustomDatePicker(
+                      textEditingController: controller.employeeDobController,
+                    ),
                           Spacer(),
-                          Container(
-                              margin: getMargin(left: 12, bottom: 98),
-                              padding: getPadding(
-                                  left: 40, top: 8, right: 50, bottom: 8),
-                              decoration: AppDecoration.txtFillBluegray700
-                                  .copyWith(
-                                      borderRadius:
-                                          BorderRadiusStyle.txtRoundedBorder10),
-                              child: Text("lbl_save".tr,
-                                  overflow: TextOverflow.ellipsis,
-                                  textAlign: TextAlign.left,
-                                  style: AppStyle.txtPoppinsBold15))
+                          CustomButton(
+                              height: getVerticalSize(45),
+                              text: "lbl_save".tr,
+                              margin: getMargin(left: 42, top: 50, right: 42),
+                              fontStyle: ButtonFontStyle.RalewayBold20,
+                              onTap: onTapSubmit)
                         ])))));
   }
 
   onTapArrowleft7() {
     Get.back();
+  }
+
+  onTapSubmit() {
+    submitControllerEmployee.createEmployeeAccount();
   }
 }
