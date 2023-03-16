@@ -4,17 +4,17 @@ import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/material.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:firebase_storage/firebase_storage.dart' as firebase_storage;
+
 
 import 'package:eschool/core/app_export.dart';
 import 'package:eschool/presentation/add_teacher_screen/models/add_teacher_model.dart';
 
 class AddTeacherController extends GetxController {
-  TextEditingController groupNineteenController = TextEditingController();
-  TextEditingController groupEighteenController = TextEditingController();
-  TextEditingController groupSeventeenController = TextEditingController();
-  TextEditingController groupFifteenController = TextEditingController();
-  TextEditingController languageController = TextEditingController();
+  TextEditingController teacherNameController = TextEditingController();
+  TextEditingController teacherEmailController = TextEditingController();
+  TextEditingController teacherPhoneController = TextEditingController();
+  TextEditingController teacherDobController = TextEditingController();
+  TextEditingController teacherSubjectController = TextEditingController();
   Rx<AddTeacherModel> addTeacherModelObj = AddTeacherModel().obs;
   String? imageUrl;
 
@@ -49,8 +49,8 @@ class AddTeacherController extends GetxController {
       // Create the user account using Firebase Authentication
       UserCredential userCredential =
           await FirebaseAuth.instance.createUserWithEmailAndPassword(
-        email: groupEighteenController.text,
-        password: groupSeventeenController.text,
+        email: teacherNameController.text,
+        password: teacherEmailController.text,
       );
 
       // Store the user profile information in Firestore
@@ -58,12 +58,12 @@ class AddTeacherController extends GetxController {
           .collection('users')
           .doc(userCredential.user!.uid)
           .set({
-        'name': groupNineteenController.text,
-        'email': groupEighteenController.text,
-        'phoneNo': groupSeventeenController.text,
-        'dob': groupFifteenController.text,
+        'name': teacherNameController.text,
+        'email': teacherEmailController.text,
+        'phoneNo': teacherPhoneController.text,
+        'dob': teacherDobController.text,
         'role': 'teacher',
-        'subject': languageController.text,
+        'subject': teacherSubjectController.text,
         'image': imageUrl
       });
     } catch (e) {
@@ -75,10 +75,10 @@ class AddTeacherController extends GetxController {
   @override
   void onClose() {
     super.onClose();
-    groupNineteenController.dispose();
-    groupEighteenController.dispose();
-    groupSeventeenController.dispose();
-    groupFifteenController.dispose();
-    languageController.dispose();
+    teacherEmailController.dispose();
+    teacherNameController.dispose();
+    teacherPhoneController.dispose();
+    teacherDobController.dispose();
+    teacherSubjectController.dispose();
   }
 }

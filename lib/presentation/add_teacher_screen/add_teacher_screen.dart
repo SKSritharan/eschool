@@ -66,7 +66,7 @@ class AddTeacherScreen extends GetWidget<AddTeacherController> {
                       style: AppStyle.txtPoppinsMedium14),
                   CustomTextFormField(
                       focusNode: FocusNode(),
-                      controller: controller.groupNineteenController,
+                      controller: controller.teacherNameController,
                       hintText: "lbl_full_name".tr,
                       margin: getMargin(top: 2),
                       validator: (value) {
@@ -83,7 +83,7 @@ class AddTeacherScreen extends GetWidget<AddTeacherController> {
                           style: AppStyle.txtPoppinsMedium14)),
                   CustomTextFormField(
                       focusNode: FocusNode(),
-                      controller: controller.groupEighteenController,
+                      controller: controller.teacherEmailController,
                       hintText: "lbl_email_address".tr,
                       margin: getMargin(top: 2),
                       textInputType: TextInputType.emailAddress,
@@ -102,7 +102,7 @@ class AddTeacherScreen extends GetWidget<AddTeacherController> {
                           style: AppStyle.txtPoppinsMedium14)),
                   CustomTextFormField(
                       focusNode: FocusNode(),
-                      controller: controller.groupSeventeenController,
+                      controller: controller.teacherPhoneController,
                       hintText: "lbl_phone_number".tr,
                       margin: getMargin(top: 5),
                       textInputType: TextInputType.phone,
@@ -120,7 +120,7 @@ class AddTeacherScreen extends GetWidget<AddTeacherController> {
                         style: AppStyle.txtPoppinsMedium14),
                   ),
                   CustomDatePicker(
-                    textEditingController: controller.groupFifteenController,
+                    textEditingController: controller.teacherDobController,
                   ),
                   Padding(
                       padding: getPadding(top: 19),
@@ -130,7 +130,7 @@ class AddTeacherScreen extends GetWidget<AddTeacherController> {
                           style: AppStyle.txtPoppinsMedium14)),
                   CustomTextFormField(
                       focusNode: FocusNode(),
-                      controller: controller.languageController,
+                      controller: controller.teacherSubjectController,
                       hintText: "msg_select_a_subject".tr,
                       margin: getMargin(top: 1),
                       textInputAction: TextInputAction.done),

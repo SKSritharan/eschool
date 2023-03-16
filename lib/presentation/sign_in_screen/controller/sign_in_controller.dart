@@ -24,7 +24,6 @@ class SignInController extends GetxController {
         email: emailvalueController.text,
         password: passwordvalueController.text,
       );
-
       if (userCredential.user != null) {
         // Store the user profile data in shared preferences
         await storeUserProfileData(userCredential.user!.uid);

@@ -1,3 +1,8 @@
+import 'dart:io';
+
+import '../../widgets/custom_button.dart';
+import '../../widgets/custom_datepicker.dart';
+import '../../widgets/custom_imagepicker.dart';
 import 'controller/add_student_controller.dart';
 import 'package:eschool/core/app_export.dart';
 import 'package:eschool/core/utils/validation_functions.dart';
@@ -10,7 +15,7 @@ import 'package:flutter/material.dart';
 // ignore_for_file: must_be_immutable
 class AddStudentScreen extends GetWidget<AddStudentController> {
   GlobalKey<FormState> _formKey = GlobalKey<FormState>();
-
+  final AddStudentController submitControllerStudent = Get.put(AddStudentController());
   @override
   Widget build(BuildContext context) {
     return SafeArea(
@@ -45,24 +50,24 @@ class AddStudentScreen extends GetWidget<AddStudentController> {
                               child: Container(
                                   height: getVerticalSize(105),
                                   width: getHorizontalSize(100),
-                                  child: Stack(
-                                      alignment: Alignment.bottomRight,
+                                  child: Column(
+                                      crossAxisAlignment: CrossAxisAlignment.start,
+                                      mainAxisAlignment: MainAxisAlignment.start,
                                       children: [
-                                        CustomImageView(
-                                            imagePath:
-                                                ImageConstant.imgEllipse34,
-                                            height: getSize(100),
-                                            width: getSize(100),
-                                            radius: BorderRadius.circular(
-                                                getHorizontalSize(50)),
-                                            alignment: Alignment.topCenter),
-                                        CustomImageView(
-                                            svgPath:
-                                                ImageConstant.imgUploadbutton,
-                                            height: getVerticalSize(31),
-                                            width: getHorizontalSize(32),
-                                            alignment: Alignment.bottomRight,
-                                            margin: getMargin(right: 3))
+                                        Align(
+                                          alignment: Alignment.center,
+                                          child: Container(
+                                            height: getVerticalSize(105),
+                                            width: getHorizontalSize(100),
+                                            child: CustomImagePicker(
+                                              onImageSelected: (File image) {
+                                                // pass the selected image to the add teacher controller
+                                                submitControllerStudent.uploadStudentImage(image);
+                                              },
+                                              size: 50,
+                                            ),
+                                          ),
+                                        ),
                                       ]))),
                           Text("lbl_name".tr,
                               overflow: TextOverflow.ellipsis,
@@ -70,7 +75,7 @@ class AddStudentScreen extends GetWidget<AddStudentController> {
                               style: AppStyle.txtPoppinsMedium14),
                           CustomTextFormField(
                               focusNode: FocusNode(),
-                              controller: controller.groupTwelveController,
+                              controller: controller.studentNameController,
                               hintText: "lbl_full_name".tr,
                               margin: getMargin(top: 2),
                               validator: (value) {
@@ -87,7 +92,7 @@ class AddStudentScreen extends GetWidget<AddStudentController> {
                                   style: AppStyle.txtPoppinsMedium14)),
                           CustomTextFormField(
                               focusNode: FocusNode(),
-                              controller: controller.groupElevenController,
+                              controller: controller.studentEmailController,
                               hintText: "lbl_email_address".tr,
                               margin: getMargin(top: 2),
                               textInputType: TextInputType.emailAddress,
@@ -106,7 +111,7 @@ class AddStudentScreen extends GetWidget<AddStudentController> {
                                   style: AppStyle.txtPoppinsMedium14)),
                           CustomTextFormField(
                               focusNode: FocusNode(),
-                              controller: controller.groupTenController,
+                              controller: controller.studentPhoneController,
                               hintText: "lbl_phone_number".tr,
                               margin: getMargin(top: 5),
                               textInputType: TextInputType.phone,
@@ -116,17 +121,17 @@ class AddStudentScreen extends GetWidget<AddStudentController> {
                                 }
                                 return null;
                               }),
-                          Padding(
-                              padding: getPadding(top: 18),
-                              child: Text("lbl_date_of_birth".tr,
-                                  overflow: TextOverflow.ellipsis,
-                                  textAlign: TextAlign.left,
-                                  style: AppStyle.txtPoppinsMedium14)),
-                          CustomTextFormField(
-                              focusNode: FocusNode(),
-                              controller: controller.groupEightController,
-                              hintText: "lbl_mm_dd_yyyy".tr,
-                              margin: getMargin(top: 2)),
+
+                    Padding(
+                      padding: getPadding(top: 18),
+                      child: Text("lbl_date_of_birth".tr,
+                          overflow: TextOverflow.ellipsis,
+                          textAlign: TextAlign.left,
+                          style: AppStyle.txtPoppinsMedium14),
+                    ),
+                    CustomDatePicker(
+                      textEditingController: controller.studentDobController,
+                    ),
                           Padding(
                               padding: getPadding(top: 18),
                               child: Text("lbl_class".tr,
@@ -135,26 +140,24 @@ class AddStudentScreen extends GetWidget<AddStudentController> {
                                   style: AppStyle.txtPoppinsMedium14)),
                           CustomTextFormField(
                               focusNode: FocusNode(),
-                              controller: controller.languageController,
+                              controller: controller.studentClassController,
                               hintText: "lbl_select_a_class".tr,
                               margin: getMargin(top: 2),
                               textInputAction: TextInputAction.done),
-                          Container(
-                              margin: getMargin(left: 12, top: 38, bottom: 5),
-                              padding: getPadding(
-                                  left: 40, top: 8, right: 50, bottom: 8),
-                              decoration: AppDecoration.txtFillBluegray700
-                                  .copyWith(
-                                      borderRadius:
-                                          BorderRadiusStyle.txtRoundedBorder10),
-                              child: Text("lbl_save".tr,
-                                  overflow: TextOverflow.ellipsis,
-                                  textAlign: TextAlign.left,
-                                  style: AppStyle.txtPoppinsBold15))
+                          CustomButton(
+                              height: getVerticalSize(45),
+                              text: "lbl_save".tr,
+                              margin: getMargin(left: 42, top: 50, right: 42),
+                              fontStyle: ButtonFontStyle.RalewayBold20,
+                              onTap: onTapSubmit),
                         ])))));
   }
 
   onTapArrowleft6() {
     Get.back();
   }
+  onTapSubmit() {
+    submitControllerStudent.createStudentAccount();
+  }
 }
+
