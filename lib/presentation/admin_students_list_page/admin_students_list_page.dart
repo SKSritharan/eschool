@@ -27,28 +27,67 @@ class AdminStudentsListPage extends StatelessWidget {
                   itemCount: students.length,
                   itemBuilder: (context, index) {
                     final student = students[index];
-                    return Container(
-                      padding: EdgeInsets.only(top: 5, bottom: 2),
-                      child: Card(
-                        shape: RoundedRectangleBorder(
-                          borderRadius: BorderRadius.circular(15),
+                    return Dismissible(
+                      background: Container(
+                        alignment: AlignmentDirectional.centerStart,
+                        color: Colors.red.shade100,
+                        child: Icon(
+                          Icons.delete,
+                          size: 50,
+                          color: Colors.red,
                         ),
-                        elevation: 5,
-                        shadowColor: Colors.blueGrey.shade700,
-                        child: ListTile(
-                          leading: CircleAvatar(
-                            backgroundImage: NetworkImage(student.image),
+                      ),
+                      key: UniqueKey(),
+                      direction: DismissDirection.startToEnd,
+                      onDismissed: (direction) async {
+                        controller.deleteStudent(student.id);
+                      },
+                      confirmDismiss: (DismissDirection direction) async {
+                        return await showDialog(
+                          context: context,
+                          builder: (BuildContext context) {
+                            return AlertDialog(
+                              title: const Text("Confirm"),
+                              content: const Text(
+                                  "Are you sure you wish to delete this teacher?"),
+                              actions: <Widget>[
+                                TextButton(
+                                    onPressed: () =>
+                                        Navigator.of(context).pop(true),
+                                    child: const Text("DELETE")),
+                                TextButton(
+                                  onPressed: () =>
+                                      Navigator.of(context).pop(false),
+                                  child: const Text("CANCEL"),
+                                ),
+                              ],
+                            );
+                          },
+                        );
+                      },
+                      child: Container(
+                        padding: EdgeInsets.only(top: 5, bottom: 2),
+                        child: Card(
+                          shape: RoundedRectangleBorder(
+                            borderRadius: BorderRadius.circular(15),
                           ),
-                          title: Text(
-                            student.name,
-                            textAlign: TextAlign.left,
-                            style: TextStyle(fontWeight: FontWeight.bold),
+                          elevation: 5,
+                          shadowColor: Colors.blueGrey.shade700,
+                          child: ListTile(
+                            leading: CircleAvatar(
+                              backgroundImage: NetworkImage(student.image),
+                            ),
+                            title: Text(
+                              student.name,
+                              textAlign: TextAlign.left,
+                              style: TextStyle(fontWeight: FontWeight.bold),
+                            ),
+                            subtitle: Text(
+                              student.phoneNo,
+                              textAlign: TextAlign.left,
+                            ),
+                            onTap: () {},
                           ),
-                          subtitle: Text(
-                            student.phoneNo,
-                            textAlign: TextAlign.left,
-                          ),
-                          onTap: () {},
                         ),
                       ),
                     );

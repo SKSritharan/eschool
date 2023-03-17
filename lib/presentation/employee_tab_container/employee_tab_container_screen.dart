@@ -14,8 +14,7 @@ import '../../widgets/app_bar/appbar_title.dart';
 import '../../widgets/app_bar/custom_app_bar.dart';
 import 'controller/employee_tab_container_controller.dart';
 
-class EmployeeTebContainer
-    extends GetWidget<EmployeeTebContainerController> {
+class EmployeeTebContainer extends GetWidget<EmployeeTebContainerController> {
   @override
   Widget build(BuildContext context) {
     return SafeArea(
@@ -85,7 +84,6 @@ class EmployeeTebContainer
                               children: [
                                 EmployeeDashboardTeachersListScreen(),
                                 EmployeeDashboardStudentsListScreen(),
-
                               ]))
                     ])),
             floatingActionButton: SpeedDial(
@@ -106,7 +104,6 @@ class EmployeeTebContainer
                     onPressed: () {
                       onTapFloatingactionbuttonStudent();
                     }),
-
               ],
               child: const Icon(Icons.add),
               closedForegroundColor: Colors.white,
@@ -123,7 +120,6 @@ class EmployeeTebContainer
   onTapFloatingactionbuttonStudent() {
     Get.toNamed(AppRoutes.addStudentScreen);
   }
-
 
   onTapPlus() {
     Get.toNamed(AppRoutes.announcementsScreen);

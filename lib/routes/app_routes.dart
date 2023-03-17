@@ -90,7 +90,6 @@ class AppRoutes {
         EmployeeTabContainerBinding(),
       ],
     ),
-
     GetPage(
       name: splashScreen,
       page: () => SplashScreen(),

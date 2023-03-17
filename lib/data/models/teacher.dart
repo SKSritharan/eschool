@@ -1,6 +1,7 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 
 class Teacher {
+  final String id;
   final String name;
   final String email;
   final String image;
@@ -9,6 +10,7 @@ class Teacher {
   final String dob;
 
   Teacher({
+    required this.id,
     required this.name,
     required this.email,
     required this.image,
@@ -20,6 +22,7 @@ class Teacher {
   static Teacher fromDocumentSnapshot(DocumentSnapshot snapshot) {
     Map<String, dynamic> data = snapshot.data()! as Map<String, dynamic>;
     return Teacher(
+      id: snapshot.id,
       name: data['name'],
       email: data['email'],
       image: data['image'],

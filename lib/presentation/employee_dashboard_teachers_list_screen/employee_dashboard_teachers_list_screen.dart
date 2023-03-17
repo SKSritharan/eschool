@@ -1,4 +1,4 @@
-import '../../data/models/Teacher.dart';
+import '../../data/models/teacher.dart';
 
 import 'controller/employee_dashboard_teachers_list_controller.dart';
 
@@ -8,7 +8,7 @@ import 'package:flutter/material.dart';
 
 class EmployeeDashboardTeachersListScreen extends StatelessWidget {
   final EmployeeDashboardTeachersListController controller =
-  Get.put(EmployeeDashboardTeachersListController());
+      Get.put(EmployeeDashboardTeachersListController());
   @override
   Widget build(BuildContext context) {
     return SafeArea(

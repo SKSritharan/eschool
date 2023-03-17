@@ -7,10 +7,8 @@ import '../models/employee_tab_container_model.dart';
 
 class EmployeeTebContainerController extends GetxController
     with GetSingleTickerProviderStateMixin {
- 
-
   late TabController tabbarvariant3Controller =
-  Get.put(TabController(vsync: this, length: 2));
+      Get.put(TabController(vsync: this, length: 2));
 
   @override
   void onReady() {

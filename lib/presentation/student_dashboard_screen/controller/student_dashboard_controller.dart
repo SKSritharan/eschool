@@ -19,17 +19,17 @@ class StudentDashboardController extends GetxController {
         .where('role', isEqualTo: 'teacher')
         .snapshots()
         .map((snapshot) => snapshot.docs
-        .map((doc) => Teacher(
-      name: doc.data()['name'] ?? '',
-      email: doc.data()['email'] ?? '',
-      image: doc.data()['image'] ?? '',
-      subject: doc.data()['subject'] ?? '',
-      dob: doc.data()['dob'] ?? '',
-      phoneNo: doc.data()['phoneNo'] ?? '',
-    ))
-        .toList());
+            .map((doc) => Teacher(
+                  id: doc.id,
+                  name: doc.data()['name'] ?? '',
+                  email: doc.data()['email'] ?? '',
+                  image: doc.data()['image'] ?? '',
+                  subject: doc.data()['subject'] ?? '',
+                  dob: doc.data()['dob'] ?? '',
+                  phoneNo: doc.data()['phoneNo'] ?? '',
+                ))
+            .toList());
   }
-
 
   @override
   void onClose() {

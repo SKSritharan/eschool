@@ -20,7 +20,7 @@ class AdminEmployeeListPage extends StatelessWidget {
         body: Container(
           padding: EdgeInsets.all(10),
           child: StreamBuilder<List<Employee>>(
-            stream: controller.teachersStream,
+            stream: controller.employeeStream,
             builder: (context, snapshot) {
               if (snapshot.hasData) {
                 final employees = snapshot.data!;
@@ -28,28 +28,67 @@ class AdminEmployeeListPage extends StatelessWidget {
                   itemCount: employees.length,
                   itemBuilder: (context, index) {
                     final employee = employees[index];
-                    return Container(
-                      padding: EdgeInsets.only(top: 5, bottom: 2),
-                      child: Card(
-                        shape: RoundedRectangleBorder(
-                          borderRadius: BorderRadius.circular(15),
+                    return Dismissible(
+                      background: Container(
+                        alignment: AlignmentDirectional.centerStart,
+                        color: Colors.red.shade100,
+                        child: Icon(
+                          Icons.delete,
+                          size: 50,
+                          color: Colors.red,
                         ),
-                        elevation: 5,
-                        shadowColor: Colors.blueGrey.shade700,
-                        child: ListTile(
-                          leading: CircleAvatar(
-                            backgroundImage: NetworkImage(employee.image),
+                      ),
+                      key: UniqueKey(),
+                      direction: DismissDirection.startToEnd,
+                      onDismissed: (direction) async {
+                        controller.deleteEmployee(employee.id);
+                      },
+                      confirmDismiss: (DismissDirection direction) async {
+                        return await showDialog(
+                          context: context,
+                          builder: (BuildContext context) {
+                            return AlertDialog(
+                              title: const Text("Confirm"),
+                              content: const Text(
+                                  "Are you sure you wish to delete this teacher?"),
+                              actions: <Widget>[
+                                TextButton(
+                                    onPressed: () =>
+                                        Navigator.of(context).pop(true),
+                                    child: const Text("DELETE")),
+                                TextButton(
+                                  onPressed: () =>
+                                      Navigator.of(context).pop(false),
+                                  child: const Text("CANCEL"),
+                                ),
+                              ],
+                            );
+                          },
+                        );
+                      },
+                      child: Container(
+                        padding: EdgeInsets.only(top: 5, bottom: 2),
+                        child: Card(
+                          shape: RoundedRectangleBorder(
+                            borderRadius: BorderRadius.circular(15),
                           ),
-                          title: Text(
-                            employee.name,
-                            textAlign: TextAlign.left,
-                            style: TextStyle(fontWeight: FontWeight.bold),
+                          elevation: 5,
+                          shadowColor: Colors.blueGrey.shade700,
+                          child: ListTile(
+                            leading: CircleAvatar(
+                              backgroundImage: NetworkImage(employee.image),
+                            ),
+                            title: Text(
+                              employee.name,
+                              textAlign: TextAlign.left,
+                              style: TextStyle(fontWeight: FontWeight.bold),
+                            ),
+                            subtitle: Text(
+                              employee.phoneNo,
+                              textAlign: TextAlign.left,
+                            ),
+                            onTap: () {},
                           ),
-                          subtitle: Text(
-                            employee.phoneNo,
-                            textAlign: TextAlign.left,
-                          ),
-                          onTap: () {},
                         ),
                       ),
                     );
