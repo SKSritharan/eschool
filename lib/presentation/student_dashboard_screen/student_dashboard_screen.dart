@@ -1,4 +1,4 @@
-import '../../data/models/Teacher.dart';
+import '../../data/models/teacher.dart';
 import '../student_dashboard_screen/widgets/listrectangleone3_item_widget.dart';
 import 'controller/student_dashboard_controller.dart';
 import 'models/listrectangleone3_item_model.dart';

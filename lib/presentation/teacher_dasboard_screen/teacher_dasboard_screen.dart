@@ -1,4 +1,8 @@
+import 'dart:io';
+
 import '../../data/models/student.dart';
+import '../../widgets/custom_button.dart';
+import '../../widgets/custom_imagepicker.dart';
 import '../teacher_dasboard_screen/widgets/listrectangleone2_item_widget.dart';
 import 'controller/teacher_dasboard_controller.dart';
 import 'models/listrectangleone2_item_model.dart';
@@ -81,7 +85,10 @@ class TeacherDasboardScreen extends GetWidget<TeacherDasboardController> {
                                 student.phoneNo,
                                 textAlign: TextAlign.left,
                               ),
-                              onTap: () {},
+                              onTap: () {
+                                _showTeacherModalBottomSheet(
+                                    context, student.id, student.image);
+                              },
                             ),
                           ),
                         );
@@ -110,6 +117,87 @@ class TeacherDasboardScreen extends GetWidget<TeacherDasboardController> {
                     height: getVerticalSize(22.0),
                     width: getHorizontalSize(22.0)))));
   }
+
+  void _showTeacherModalBottomSheet(BuildContext context, userId,
+      String image) {
+    showModalBottomSheet(
+        context: context,
+        isScrollControlled: true,
+        builder: (BuildContext context) {
+          return SingleChildScrollView(
+            physics: ClampingScrollPhysics(),
+            child: Container(
+              padding: EdgeInsets.all(16.0),
+              child: Column(
+                mainAxisSize: MainAxisSize.min,
+                crossAxisAlignment: CrossAxisAlignment.stretch,
+                children: [
+                  Text(
+                    'Edit Student',
+                    style: TextStyle(
+                      fontWeight: FontWeight.bold,
+                      fontSize: 20.0,
+                    ),
+                  ),
+                  SizedBox(height: 16.0),
+                  Align(
+                    alignment: Alignment.center,
+                    child: Container(
+                      height: getVerticalSize(105),
+                      width: getHorizontalSize(100),
+                      child: CustomImagePicker(
+                        currentImage: image,
+                        onImageSelected: (File image) {
+                          // pass the selected image to the add teacher controller
+                          controller
+                              .uploadImage(image);
+                        },
+                        size: 50,
+                      ),
+                    ),
+                  ),
+                  TextFormField(
+                    controller: controller.editStudentNameController,
+                    decoration: InputDecoration(labelText: 'Name'),
+                  ),
+                  SizedBox(height: 16.0),
+                  TextFormField(
+                    controller: controller.editStudentEmailController,
+                    decoration: InputDecoration(labelText: 'Email'),
+                    enabled: false,
+                  ),
+                  SizedBox(height: 16.0),
+                  TextFormField(
+                    controller: controller.editStudentPhoneController,
+                    decoration: InputDecoration(labelText: 'Phone Number'),
+                  ),
+                  SizedBox(height: 16.0),
+                  TextFormField(
+                    controller: controller.editStudentClzController,
+                    decoration: InputDecoration(labelText: 'Class'),
+                  ),
+                  SizedBox(height: 16.0),
+                  CustomButton(
+                      height: getVerticalSize(45),
+                      text: "lbl_save".tr,
+                      margin: getMargin(left: 42, top: 50, right: 42),
+                      fontStyle: ButtonFontStyle.RalewayBold20,
+                      onTap: () {
+                        controller.updateStudentData(userId);
+                        Navigator.pop(context);
+                      }),
+
+                  SizedBox(height: MediaQuery
+                      .of(context)
+                      .viewInsets
+                      .bottom),
+                ],
+              ),
+            ),
+          );
+        });
+  }
+
 
   onTapBtnFloatingactionbutton() {
     Get.toNamed(AppRoutes.addStudentScreen);
