@@ -93,7 +93,7 @@ class AdminEmployeeListPage extends StatelessWidget {
                             ),
                             onTap: () {
                               _showTeacherModalBottomSheet(
-                                  context, employee.id,employee.image);
+                                  context, employee);
                             },
                           ),
                         ),
@@ -116,7 +116,12 @@ class AdminEmployeeListPage extends StatelessWidget {
       ),
     );
   }
-  void _showTeacherModalBottomSheet(BuildContext context, userId, String image) {
+
+  void _showTeacherModalBottomSheet(
+      BuildContext context, employee) {
+    controller.editEmployeeNameController.text = employee.name;
+    controller.editEmployeeEmailController.text = employee.email;
+    controller.editEmployeePhoneController.text = employee.phoneNo;
     showModalBottomSheet(
         context: context,
         isScrollControlled: true,
@@ -142,14 +147,9 @@ class AdminEmployeeListPage extends StatelessWidget {
                     child: Container(
                       height: getVerticalSize(105),
                       width: getHorizontalSize(100),
-                      child: CustomImagePicker(
-                        currentImage: image,
-                        onImageSelected: (File img) {
-                          // pass the selected image to the add teacher controller
-                          controller
-                              .uploadImage(img);
-                        },
-                        size: 50,
+                      child: CircleAvatar(
+                        backgroundImage: NetworkImage(employee.image),
+                        radius: 50,
                       ),
                     ),
                   ),
@@ -169,17 +169,15 @@ class AdminEmployeeListPage extends StatelessWidget {
                     decoration: InputDecoration(labelText: 'Phone Number'),
                   ),
                   SizedBox(height: 16.0),
-
                   CustomButton(
                       height: getVerticalSize(45),
                       text: "lbl_save".tr,
                       margin: getMargin(left: 42, top: 50, right: 42),
                       fontStyle: ButtonFontStyle.RalewayBold20,
-                      onTap: (){
-                        controller.updateEmployeeData(userId);
+                      onTap: () {
+                        controller.updateEmployeeData(employee.id);
                         Navigator.pop(context);
                       }),
-
                   SizedBox(height: MediaQuery.of(context).viewInsets.bottom),
                 ],
               ),
@@ -187,5 +185,4 @@ class AdminEmployeeListPage extends StatelessWidget {
           );
         });
   }
-
 }

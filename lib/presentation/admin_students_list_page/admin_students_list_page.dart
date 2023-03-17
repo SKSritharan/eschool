@@ -15,7 +15,7 @@ import 'package:flutter/material.dart';
 // ignore_for_file: must_be_immutable
 class AdminStudentsListPage extends StatelessWidget {
   AdminStudentsListController controller =
-  Get.put(AdminStudentsListController());
+      Get.put(AdminStudentsListController());
 
   @override
   Widget build(BuildContext context) {
@@ -93,8 +93,7 @@ class AdminStudentsListPage extends StatelessWidget {
                               textAlign: TextAlign.left,
                             ),
                             onTap: () {
-                              _showTeacherModalBottomSheet(
-                                  context, student.id, student.image);
+                              _showTeacherModalBottomSheet(context, student);
                             },
                           ),
                         ),
@@ -118,8 +117,11 @@ class AdminStudentsListPage extends StatelessWidget {
     );
   }
 
-  void _showTeacherModalBottomSheet(BuildContext context, userId,
-      String image) {
+  void _showTeacherModalBottomSheet(BuildContext context, student) {
+    controller.editStudentNameController.text = student.name;
+    controller.editStudentEmailController.text = student.email;
+    controller.editStudentPhoneController.text = student.phoneNo;
+    controller.editStudentClzController.text = student.clz;
     showModalBottomSheet(
         context: context,
         isScrollControlled: true,
@@ -145,14 +147,9 @@ class AdminStudentsListPage extends StatelessWidget {
                     child: Container(
                       height: getVerticalSize(105),
                       width: getHorizontalSize(100),
-                      child: CustomImagePicker(
-                        currentImage: image,
-                        onImageSelected: (File image) {
-                          // pass the selected image to the add teacher controller
-                          controller
-                              .uploadImage(image);
-                        },
-                        size: 50,
+                      child: CircleAvatar(
+                        backgroundImage: NetworkImage(student.image),
+                        radius: 50,
                       ),
                     ),
                   ),
@@ -182,20 +179,15 @@ class AdminStudentsListPage extends StatelessWidget {
                       text: "lbl_save".tr,
                       margin: getMargin(left: 42, top: 50, right: 42),
                       fontStyle: ButtonFontStyle.RalewayBold20,
-                      onTap: () {
-                        controller.updateStudentData(userId);
+                      onTap: () async {
+                        await controller.updateStudentData(student.id);
                         Navigator.pop(context);
                       }),
-
-                  SizedBox(height: MediaQuery
-                      .of(context)
-                      .viewInsets
-                      .bottom),
+                  SizedBox(height: MediaQuery.of(context).viewInsets.bottom),
                 ],
               ),
             ),
           );
         });
   }
-
 }
