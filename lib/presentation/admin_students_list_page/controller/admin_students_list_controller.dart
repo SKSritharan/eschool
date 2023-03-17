@@ -35,7 +35,7 @@ class AdminStudentsListController extends GetxController {
             .toList());
   }
 
-    void deleteStudent(String studentId) async {
+  void deleteStudent(String studentId) async {
     try {
       // Delete user from Firebase Authentication
 

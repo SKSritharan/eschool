@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 class CustomTextFormField extends StatelessWidget {
   CustomTextFormField(
       {this.shape,
+      this.enabled,
       this.padding,
       this.variant,
       this.fontStyle,
@@ -24,6 +25,8 @@ class CustomTextFormField extends StatelessWidget {
       this.validator});
 
   TextFormFieldShape? shape;
+
+  bool? enabled;
 
   TextFormFieldPadding? padding;
 
@@ -76,6 +79,7 @@ class CustomTextFormField extends StatelessWidget {
       width: width ?? double.maxFinite,
       margin: margin,
       child: TextFormField(
+        enabled: enabled,
         controller: controller,
         focusNode: focusNode,
         style: _setFontStyle(),
