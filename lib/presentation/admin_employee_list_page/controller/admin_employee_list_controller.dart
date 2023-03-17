@@ -9,12 +9,9 @@ import 'package:flutter/material.dart';
 import '../../../data/models/employee.dart';
 
 class AdminEmployeeListController extends GetxController {
-
   TextEditingController editEmployeeNameController = TextEditingController();
   TextEditingController editEmployeeEmailController = TextEditingController();
   TextEditingController editEmployeePhoneController = TextEditingController();
-
-  String? imageUrl;
 
   final FirebaseFirestore _firestore = FirebaseFirestore.instance;
   RxList<Employee> employeeList = <Employee>[].obs;
@@ -22,23 +19,6 @@ class AdminEmployeeListController extends GetxController {
   @override
   void onReady() {
     super.onReady();
-  }
-
-  void uploadImage(File img) {
-    uploadImageToStorage(img);
-  }
-  final FirebaseStorage _storage = FirebaseStorage.instance;
-  Future<void> uploadImageToStorage(File imageFile) async {
-    try {
-      String fileName = DateTime.now().millisecondsSinceEpoch.toString();
-      Reference reference = _storage.ref().child('profile/$fileName');
-      UploadTask uploadTask = reference.putFile(imageFile);
-      TaskSnapshot taskSnapshot = await uploadTask;
-      String downloadUrl = await taskSnapshot.ref.getDownloadURL();
-      imageUrl = downloadUrl;
-    } catch (e) {
-      print('Error uploading image to Firebase Storage: $e');
-    }
   }
 
   Stream<List<Employee>> get employeeStream {
@@ -80,22 +60,19 @@ class AdminEmployeeListController extends GetxController {
     }
   }
 
-
   //update Employee data
   Future<void> updateEmployeeData(String id) async {
     final userId = id;
     try {
       final userRef =
-      FirebaseFirestore.instance.collection('users').doc(userId);
+          FirebaseFirestore.instance.collection('users').doc(userId);
 
       await userRef.update({
         'name': editEmployeeNameController.text,
         'phoneNo': editEmployeePhoneController.text,
-        'image': imageUrl
       });
 
       Get.snackbar('Success', 'Employee Updated successfully');
-
     } catch (error) {
       Get.snackbar('Error', 'Failed to update Employee');
       print(error);

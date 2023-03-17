@@ -91,7 +91,7 @@ class AdminTeachersListPage extends StatelessWidget {
                                 textAlign: TextAlign.left,
                               ),
                               onTap: () => _showTeacherModalBottomSheet(
-                                  context, teacher.id,teacher.image),
+                                  context, teacher),
                             ),
                           ),
                         ));
@@ -113,7 +113,11 @@ class AdminTeachersListPage extends StatelessWidget {
     );
   }
 
-  void _showTeacherModalBottomSheet(BuildContext context, userId, String image) {
+  void _showTeacherModalBottomSheet(BuildContext context, teacher) {
+    controller.editTeacherNameController.text = teacher.name;
+    controller.editTeacherEmailController.text = teacher.email;
+    controller.editTeacherPhoneController.text = teacher.phoneNo;
+    controller.editTeacherSubjectController.text = teacher.subject;
     showModalBottomSheet(
         context: context,
         isScrollControlled: true,
@@ -139,14 +143,9 @@ class AdminTeachersListPage extends StatelessWidget {
                     child: Container(
                       height: getVerticalSize(105),
                       width: getHorizontalSize(100),
-                      child: CustomImagePicker(
-                        currentImage: image,
-                        onImageSelected: (File img) {
-                          // pass the selected image to the add teacher controller
-                          controller
-                              .uploadImage(img);
-                        },
-                        size: 50,
+                      child: CircleAvatar(
+                        backgroundImage: NetworkImage(teacher.image),
+                        radius: 50,
                       ),
                     ),
                   ),
@@ -176,11 +175,10 @@ class AdminTeachersListPage extends StatelessWidget {
                       text: "lbl_save".tr,
                       margin: getMargin(left: 42, top: 50, right: 42),
                       fontStyle: ButtonFontStyle.RalewayBold20,
-                      onTap: (){
-                        controller.updateTeacherData(userId);
+                      onTap: () {
+                        controller.updateTeacherData(teacher.id);
                         Navigator.pop(context);
                       }),
-
                   SizedBox(height: MediaQuery.of(context).viewInsets.bottom),
                 ],
               ),

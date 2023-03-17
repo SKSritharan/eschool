@@ -13,7 +13,6 @@ class AdminStudentsListController extends GetxController {
   TextEditingController editStudentEmailController = TextEditingController();
   TextEditingController editStudentClzController = TextEditingController();
   TextEditingController editStudentPhoneController = TextEditingController();
-  String? imageUrl;
 
   final FirebaseFirestore _firestore = FirebaseFirestore.instance;
   RxList<Student> studentsList = <Student>[].obs;
@@ -23,47 +22,25 @@ class AdminStudentsListController extends GetxController {
     super.onReady();
   }
 
-
-  void uploadImage(File image) {
-    uploadImageToStorage(image);
-  }
-
-  final FirebaseStorage _storage = FirebaseStorage.instance;
-  Future<void> uploadImageToStorage(File imageFile) async {
-    try {
-      String fileName = DateTime.now().millisecondsSinceEpoch.toString();
-      Reference reference = _storage.ref().child('profile/$fileName');
-      UploadTask uploadTask = reference.putFile(imageFile);
-      TaskSnapshot taskSnapshot = await uploadTask;
-      String downloadUrl = await taskSnapshot.ref.getDownloadURL();
-      imageUrl = downloadUrl;
-    } catch (e) {
-      print('Error uploading image to Firebase Storage: $e');
-    }
-  }
-
   //update Student data
-  Future<void> updateStudentData(String id) async {
-    final userId = id;
+  Future<void> updateStudentData(String userId) async {
     try {
-      final userRef =
-      FirebaseFirestore.instance.collection('users').doc(userId);
+      final userRef = _firestore.collection('users').doc(userId);
 
       await userRef.update({
         'name': editStudentNameController.text,
         'phoneNo': editStudentPhoneController.text,
-        'Class': editStudentClzController.text,
-        'image': imageUrl
+        'class': editStudentClzController.text,
       });
 
       Get.snackbar('Success', 'Student Updated successfully');
-
     } catch (error) {
       Get.snackbar('Error', 'Failed to update Student');
       print(error);
     }
   }
 
+  //list of students
   Stream<List<Student>> get studentsStream {
     return _firestore
         .collection('users')
@@ -75,7 +52,7 @@ class AdminStudentsListController extends GetxController {
                   name: doc.data()['name'] ?? '',
                   email: doc.data()['email'] ?? '',
                   image: doc.data()['image'] ?? '',
-                  clz: doc.data()['subject'] ?? '',
+                  clz: doc.data()['class'] ?? '',
                   dob: doc.data()['dob'] ?? '',
                   phoneNo: doc.data()['phoneNo'] ?? '',
                 ))

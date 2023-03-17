@@ -15,103 +15,112 @@ class PasswordChangeScreen extends GetWidget<PasswordChangeController> {
   @override
   Widget build(BuildContext context) {
     return SafeArea(
-        child: Scaffold(
-            resizeToAvoidBottomInset: false,
-            backgroundColor: ColorConstant.blue50,
-            appBar: CustomAppBar(
-                height: getVerticalSize(98),
-                leadingWidth: 60,
-                leading: AppbarImage(
-                    height: getVerticalSize(17),
-                    width: getHorizontalSize(30),
-                    svgPath: ImageConstant.imgArrowleft,
-                    margin: getMargin(left: 30, top: 54, bottom: 27),
-                    onTap: onTapArrowleft4),
-                title: AppbarTitle(
-                    text: "lbl_password_change".tr,
-                    margin: getMargin(left: 77, top: 55, bottom: 18)),
-                styleType: Style.bgFillBluegray700),
-            body: Form(
-                key: _formKey,
-                child: Container(
-                    width: double.maxFinite,
-                    padding: getPadding(left: 48, top: 114, right: 48),
-                    child: Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        mainAxisAlignment: MainAxisAlignment.start,
-                        children: [
-                          Text("msg_current_password".tr,
-                              overflow: TextOverflow.ellipsis,
-                              textAlign: TextAlign.left,
-                              style: AppStyle.txtPoppinsMedium14),
-                          CustomTextFormField(
-                              focusNode: FocusNode(),
-                              controller: controller.groupFiveController,
-                              hintText: "msg_current_password".tr,
-                              margin: getMargin(top: 2),
-                              textInputType: TextInputType.visiblePassword,
-                              validator: (value) {
-                                if (value == null ||
-                                    (!isValidPassword(value,
-                                        isRequired: true))) {
-                                  return "Please enter valid password";
-                                }
-                                return null;
-                              },
-                              isObscureText: true),
-                          Padding(
-                              padding: getPadding(top: 27),
-                              child: Text("lbl_new_password".tr,
-                                  overflow: TextOverflow.ellipsis,
-                                  textAlign: TextAlign.left,
-                                  style: AppStyle.txtPoppinsMedium14)),
-                          CustomTextFormField(
-                              focusNode: FocusNode(),
-                              controller: controller.groupSixController,
-                              hintText: "lbl_new_password".tr,
-                              margin: getMargin(top: 2),
-                              textInputType: TextInputType.visiblePassword,
-                              validator: (value) {
-                                if (value == null ||
-                                    (!isValidPassword(value,
-                                        isRequired: true))) {
-                                  return "Please enter valid password";
-                                }
-                                return null;
-                              },
-                              isObscureText: true),
-                          Padding(
-                              padding: getPadding(top: 27),
-                              child: Text("msg_confirm_new_password".tr,
-                                  overflow: TextOverflow.ellipsis,
-                                  textAlign: TextAlign.left,
-                                  style: AppStyle.txtPoppinsMedium14)),
-                          CustomTextFormField(
-                              focusNode: FocusNode(),
-                              controller: controller.groupSevenController,
-                              hintText: "msg_confirm_password".tr,
-                              margin: getMargin(top: 5),
-                              textInputAction: TextInputAction.done,
-                              textInputType: TextInputType.visiblePassword,
-                              validator: (value) {
-                                if (value == null ||
-                                    (!isValidPassword(value,
-                                        isRequired: true))) {
-                                  return "Please enter valid password";
-                                }
-                                return null;
-                              },
-                              isObscureText: true),
-                          CustomButton(
-                              height: getVerticalSize(39),
-                              text: "lbl_save".tr,
-                              margin: getMargin(
-                                  left: 26, top: 28, right: 26, bottom: 5),
-                              alignment: Alignment.center)
-                        ])))));
+      child: Scaffold(
+        resizeToAvoidBottomInset: false,
+        backgroundColor: ColorConstant.blue50,
+        appBar: CustomAppBar(
+            height: getVerticalSize(98),
+            leadingWidth: 60,
+            leading: AppbarImage(
+                height: getVerticalSize(17),
+                width: getHorizontalSize(30),
+                svgPath: ImageConstant.imgArrowleft,
+                margin: getMargin(left: 30, top: 54, bottom: 27),
+                onTap: onTapArrowleft4),
+            title: AppbarTitle(
+                text: "lbl_password_change".tr,
+                margin: getMargin(left: 77, top: 55, bottom: 18)),
+            styleType: Style.bgFillBluegray700),
+        body: Form(
+          key: _formKey,
+          child: Container(
+            width: double.maxFinite,
+            padding: getPadding(left: 48, top: 114, right: 48),
+            child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                mainAxisAlignment: MainAxisAlignment.start,
+                children: [
+                  Text("msg_current_password".tr,
+                      overflow: TextOverflow.ellipsis,
+                      textAlign: TextAlign.left,
+                      style: AppStyle.txtPoppinsMedium14),
+                  CustomTextFormField(
+                      focusNode: FocusNode(),
+                      controller: controller.currentPasswordController,
+                      hintText: "msg_current_password".tr,
+                      margin: getMargin(top: 2),
+                      textInputType: TextInputType.visiblePassword,
+                      validator: (value) {
+                        if (value == null ||
+                            (!isValidPassword(value, isRequired: true))) {
+                          return "Please enter valid password";
+                        }
+                        return null;
+                      },
+                      isObscureText: true),
+                  Padding(
+                      padding: getPadding(top: 27),
+                      child: Text("lbl_new_password".tr,
+                          overflow: TextOverflow.ellipsis,
+                          textAlign: TextAlign.left,
+                          style: AppStyle.txtPoppinsMedium14)),
+                  CustomTextFormField(
+                      focusNode: FocusNode(),
+                      controller: controller.newPasswordController,
+                      hintText: "lbl_new_password".tr,
+                      margin: getMargin(top: 2),
+                      textInputType: TextInputType.visiblePassword,
+                      validator: (value) {
+                        if (value == null ||
+                            (!isValidPassword(value, isRequired: true))) {
+                          return "Please enter valid password";
+                        }
+                        return null;
+                      },
+                      isObscureText: true),
+                  Padding(
+                      padding: getPadding(top: 27),
+                      child: Text("msg_confirm_new_password".tr,
+                          overflow: TextOverflow.ellipsis,
+                          textAlign: TextAlign.left,
+                          style: AppStyle.txtPoppinsMedium14)),
+                  CustomTextFormField(
+                      focusNode: FocusNode(),
+                      controller: controller.confirmPasswordController,
+                      hintText: "msg_confirm_password".tr,
+                      margin: getMargin(top: 5),
+                      textInputAction: TextInputAction.done,
+                      textInputType: TextInputType.visiblePassword,
+                      validator: (value) {
+                        if (value == null ||
+                            (!isValidPassword(value, isRequired: true))) {
+                          return "Please enter valid password";
+                        }
+                        return null;
+                      },
+                      isObscureText: true),
+                  CustomButton(
+                    height: getVerticalSize(39),
+                    text: "lbl_save".tr,
+                    margin: getMargin(left: 26, top: 28, right: 26, bottom: 5),
+                    alignment: Alignment.center,
+                    onTap: onTapSave,
+                  ),
+                ]),
+          ),
+        ),
+      ),
+    );
   }
 
   onTapArrowleft4() {
     Get.back();
+  }
+
+  void onTapSave() async {
+    // if (_formKey.currentState!.validate()) {
+    //   await controller.changePassword();
+    // }
+    await controller.changePassword();
   }
 }

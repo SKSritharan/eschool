@@ -82,12 +82,11 @@ class TeacherDasboardScreen extends GetWidget<TeacherDasboardController> {
                                 style: TextStyle(fontWeight: FontWeight.bold),
                               ),
                               subtitle: Text(
-                                student.phoneNo,
+                                student.clz,
                                 textAlign: TextAlign.left,
                               ),
                               onTap: () {
-                                _showTeacherModalBottomSheet(
-                                    context, student.id, student.image);
+                                _showTeacherModalBottomSheet(context, student);
                               },
                             ),
                           ),
@@ -118,8 +117,11 @@ class TeacherDasboardScreen extends GetWidget<TeacherDasboardController> {
                     width: getHorizontalSize(22.0)))));
   }
 
-  void _showTeacherModalBottomSheet(BuildContext context, userId,
-      String image) {
+  void _showTeacherModalBottomSheet(BuildContext context, student) {
+    controller.editStudentNameController.text = student.name;
+    controller.editStudentEmailController.text = student.email;
+    controller.editStudentPhoneController.text = student.phoneNo;
+    controller.editStudentClzController.text = student.clz;
     showModalBottomSheet(
         context: context,
         isScrollControlled: true,
@@ -145,14 +147,9 @@ class TeacherDasboardScreen extends GetWidget<TeacherDasboardController> {
                     child: Container(
                       height: getVerticalSize(105),
                       width: getHorizontalSize(100),
-                      child: CustomImagePicker(
-                        currentImage: image,
-                        onImageSelected: (File image) {
-                          // pass the selected image to the add teacher controller
-                          controller
-                              .uploadImage(image);
-                        },
-                        size: 50,
+                      child: CircleAvatar(
+                        backgroundImage: NetworkImage(student.image),
+                        radius: 50,
                       ),
                     ),
                   ),
@@ -183,21 +180,16 @@ class TeacherDasboardScreen extends GetWidget<TeacherDasboardController> {
                       margin: getMargin(left: 42, top: 50, right: 42),
                       fontStyle: ButtonFontStyle.RalewayBold20,
                       onTap: () {
-                        controller.updateStudentData(userId);
+                        controller.updateStudentData(student.id);
                         Navigator.pop(context);
                       }),
-
-                  SizedBox(height: MediaQuery
-                      .of(context)
-                      .viewInsets
-                      .bottom),
+                  SizedBox(height: MediaQuery.of(context).viewInsets.bottom),
                 ],
               ),
             ),
           );
         });
   }
-
 
   onTapBtnFloatingactionbutton() {
     Get.toNamed(AppRoutes.addStudentScreen);
