@@ -26,7 +26,7 @@ class EmployeeTebContainer extends GetWidget<EmployeeTebContainerController> {
                 leading: AppbarImage(
                     height: getSize(24),
                     width: getSize(24),
-                    svgPath: ImageConstant.imgPlusWhiteA700,
+                    svgPath: ImageConstant.imgVolume,
                     margin: getMargin(left: 6, top: 47, bottom: 27),
                     onTap: onTapPlus),
                 centerTitle: true,
@@ -122,7 +122,7 @@ class EmployeeTebContainer extends GetWidget<EmployeeTebContainerController> {
   }
 
   onTapPlus() {
-    Get.toNamed(AppRoutes.announcementsScreen);
+    Get.toNamed(AppRoutes.announcementsListScreen);
   }
 
   onTapUser3() {
