@@ -1,13 +1,25 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:eschool/core/app_export.dart';
 import 'package:eschool/presentation/announcements_screen/models/announcements_model.dart';
 import 'package:flutter/material.dart';
 
 class AnnouncementsController extends GetxController {
-  TextEditingController groupThirteenController = TextEditingController();
-
-  TextEditingController groupFourteenController = TextEditingController();
+  TextEditingController titleController = TextEditingController();
+  TextEditingController messageController = TextEditingController();
 
   Rx<AnnouncementsModel> announcementsModelObj = AnnouncementsModel().obs;
+
+  Future<void> createAnnouncement() async {
+    try {
+      await FirebaseFirestore.instance.collection('announcements').doc().set({
+        'title': titleController.text,
+        'message': messageController.text,
+      });
+    } catch (e) {
+      // Handle any errors that occur
+      print('Error creating announcements: $e');
+    }
+  }
 
   @override
   void onReady() {
@@ -17,7 +29,7 @@ class AnnouncementsController extends GetxController {
   @override
   void onClose() {
     super.onClose();
-    groupThirteenController.dispose();
-    groupFourteenController.dispose();
+    titleController.dispose();
+    messageController.dispose();
   }
 }

@@ -1,3 +1,5 @@
+import 'package:eschool/data/models/announcement.dart';
+
 import 'controller/announcements_list_controller.dart';
 import 'package:eschool/core/app_export.dart';
 import 'package:eschool/widgets/app_bar/appbar_image.dart';
@@ -26,163 +28,54 @@ class AnnouncementsListScreen extends GetWidget<AnnouncementsListController> {
                     margin: getMargin(top: 54, bottom: 20)),
                 styleType: Style.bgFillBluegray700),
             body: Container(
-                width: double.maxFinite,
-                padding: getPadding(left: 22, top: 33, right: 22, bottom: 33),
-                child: Column(
-                    mainAxisAlignment: MainAxisAlignment.start,
-                    children: [
-                      Container(
-                          width: double.maxFinite,
-                          child: Container(
-                              width: getHorizontalSize(370),
-                              padding: getPadding(
-                                  left: 20, top: 9, right: 20, bottom: 9),
-                              decoration: AppDecoration.outlineBlack9003f
-                                  .copyWith(
-                                      borderRadius:
-                                          BorderRadiusStyle.roundedBorder20),
-                              child: Column(
-                                  mainAxisSize: MainAxisSize.min,
-                                  crossAxisAlignment: CrossAxisAlignment.start,
-                                  mainAxisAlignment: MainAxisAlignment.start,
-                                  children: [
-                                    Text("lbl_title".tr,
-                                        overflow: TextOverflow.ellipsis,
-                                        textAlign: TextAlign.left,
-                                        style: AppStyle.txtRobotoRomanBold20
-                                            .copyWith(
-                                                letterSpacing:
-                                                    getHorizontalSize(0.15))),
-                                    Padding(
-                                        padding: getPadding(
-                                            left: 8,
-                                            top: 2,
-                                            right: 27,
-                                            bottom: 17),
-                                        child: Text("msg_lorem_ipsum_dolor".tr,
-                                            maxLines: null,
-                                            textAlign: TextAlign.left,
-                                            style: AppStyle.txtRobotoRegular16
-                                                .copyWith(
-                                                    letterSpacing:
-                                                        getHorizontalSize(
-                                                            0.15))))
-                                  ]))),
-                      Container(
-                          width: double.maxFinite,
-                          child: Container(
-                              width: getHorizontalSize(370),
-                              margin: getMargin(top: 10),
-                              padding: getPadding(
-                                  left: 20, top: 9, right: 20, bottom: 9),
-                              decoration: AppDecoration.outlineBlack9003f
-                                  .copyWith(
-                                      borderRadius:
-                                          BorderRadiusStyle.roundedBorder20),
-                              child: Column(
-                                  mainAxisSize: MainAxisSize.min,
-                                  crossAxisAlignment: CrossAxisAlignment.start,
-                                  mainAxisAlignment: MainAxisAlignment.start,
-                                  children: [
-                                    Text("lbl_title".tr,
-                                        overflow: TextOverflow.ellipsis,
-                                        textAlign: TextAlign.left,
-                                        style: AppStyle.txtRobotoRomanBold20
-                                            .copyWith(
-                                                letterSpacing:
-                                                    getHorizontalSize(0.15))),
-                                    Padding(
-                                        padding: getPadding(
-                                            left: 8,
-                                            top: 2,
-                                            right: 27,
-                                            bottom: 17),
-                                        child: Text("msg_lorem_ipsum_dolor".tr,
-                                            maxLines: null,
-                                            textAlign: TextAlign.left,
-                                            style: AppStyle.txtRobotoRegular16
-                                                .copyWith(
-                                                    letterSpacing:
-                                                        getHorizontalSize(
-                                                            0.15))))
-                                  ]))),
-                      Container(
-                          width: double.maxFinite,
-                          child: Container(
-                              width: getHorizontalSize(370),
-                              margin: getMargin(top: 10),
-                              padding: getPadding(
-                                  left: 20, top: 9, right: 20, bottom: 9),
-                              decoration: AppDecoration.outlineBlack9003f
-                                  .copyWith(
-                                      borderRadius:
-                                          BorderRadiusStyle.roundedBorder20),
-                              child: Column(
-                                  mainAxisSize: MainAxisSize.min,
-                                  crossAxisAlignment: CrossAxisAlignment.start,
-                                  mainAxisAlignment: MainAxisAlignment.start,
-                                  children: [
-                                    Text("lbl_title".tr,
-                                        overflow: TextOverflow.ellipsis,
-                                        textAlign: TextAlign.left,
-                                        style: AppStyle.txtRobotoRomanBold20
-                                            .copyWith(
-                                                letterSpacing:
-                                                    getHorizontalSize(0.15))),
-                                    Padding(
-                                        padding: getPadding(
-                                            left: 8,
-                                            top: 2,
-                                            right: 27,
-                                            bottom: 17),
-                                        child: Text("msg_lorem_ipsum_dolor".tr,
-                                            maxLines: null,
-                                            textAlign: TextAlign.left,
-                                            style: AppStyle.txtRobotoRegular16
-                                                .copyWith(
-                                                    letterSpacing:
-                                                        getHorizontalSize(
-                                                            0.15))))
-                                  ]))),
-                      Container(
-                          width: double.maxFinite,
-                          child: Container(
-                              width: getHorizontalSize(370),
-                              margin: getMargin(top: 10, bottom: 5),
-                              padding: getPadding(
-                                  left: 20, top: 9, right: 20, bottom: 9),
-                              decoration: AppDecoration.outlineBlack9003f
-                                  .copyWith(
-                                      borderRadius:
-                                          BorderRadiusStyle.roundedBorder20),
-                              child: Column(
-                                  mainAxisSize: MainAxisSize.min,
-                                  crossAxisAlignment: CrossAxisAlignment.start,
-                                  mainAxisAlignment: MainAxisAlignment.start,
-                                  children: [
-                                    Text("lbl_title".tr,
-                                        overflow: TextOverflow.ellipsis,
-                                        textAlign: TextAlign.left,
-                                        style: AppStyle.txtRobotoRomanBold20
-                                            .copyWith(
-                                                letterSpacing:
-                                                    getHorizontalSize(0.15))),
-                                    Padding(
-                                        padding: getPadding(
-                                            left: 8,
-                                            top: 2,
-                                            right: 27,
-                                            bottom: 17),
-                                        child: Text("msg_lorem_ipsum_dolor".tr,
-                                            maxLines: null,
-                                            textAlign: TextAlign.left,
-                                            style: AppStyle.txtRobotoRegular16
-                                                .copyWith(
-                                                    letterSpacing:
-                                                        getHorizontalSize(
-                                                            0.15))))
-                                  ])))
-                    ]))));
+              width: double.maxFinite,
+              padding: getPadding(left: 22, top: 33, right: 22, bottom: 33),
+              child: StreamBuilder<List<Announcement>>(
+                stream: controller.announcementStream,
+                builder: (context, snapshot) {
+                  if (snapshot.hasData) {
+                    final announcements = snapshot.data!;
+                    return ListView.builder(
+                      itemCount: announcements.length,
+                      itemBuilder: (context, index) {
+                        final announcement = announcements[index];
+                        return Container(
+                          padding: EdgeInsets.only(top: 5, bottom: 2),
+                          child: Card(
+                            shape: RoundedRectangleBorder(
+                              borderRadius: BorderRadius.circular(15),
+                            ),
+                            elevation: 5,
+                            shadowColor: Colors.blueGrey.shade700,
+                            child: ListTile(
+                              leading: Icon(Icons.announcement),
+                              title: Text(
+                                announcement.title,
+                                textAlign: TextAlign.left,
+                                style: TextStyle(fontWeight: FontWeight.bold),
+                              ),
+                              subtitle: Text(
+                                announcement.message,
+                                textAlign: TextAlign.left,
+                              ),
+                              onTap: () {},
+                            ),
+                          ),
+                        );
+                      },
+                    );
+                  } else if (snapshot.hasError) {
+                    return Center(
+                      child: Text('Error fetching teachers'),
+                    );
+                  } else {
+                    return Center(
+                      child: CircularProgressIndicator(),
+                    );
+                  }
+                },
+              ),
+            )));
   }
 
   onTapArrowleft() {

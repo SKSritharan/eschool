@@ -9,13 +9,9 @@ import 'package:flutter/material.dart';
 
 class AddStudentController extends GetxController {
   TextEditingController studentNameController = TextEditingController();
-
   TextEditingController studentEmailController = TextEditingController();
-
   TextEditingController studentPhoneController = TextEditingController();
-
   TextEditingController studentDobController = TextEditingController();
-
   TextEditingController studentClassController = TextEditingController();
 
   Rx<AddStudentModel> addStudentModelObj = AddStudentModel().obs;
