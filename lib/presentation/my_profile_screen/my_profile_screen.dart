@@ -1,7 +1,11 @@
+import 'dart:io';
+
+import 'package:eschool/widgets/custom_imagepicker.dart';
 import 'package:flutter/material.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
+import '../../widgets/custom_datepicker.dart';
 import 'controller/my_profile_controller.dart';
 import 'package:eschool/core/app_export.dart';
 import 'package:eschool/core/utils/validation_functions.dart';
@@ -31,78 +35,90 @@ class MyProfileScreen extends GetWidget<MyProfileController> {
                     mainAxisAlignment: MainAxisAlignment.start,
                     children: [
                       Container(
-                          width: double.maxFinite,
-                          child: Container(
-                              margin: getMargin(left: 0),
-                              padding: getPadding(top: 20, bottom: 30),
-                              decoration: AppDecoration.fillBluegray700
-                                  .copyWith(
-                                      borderRadius:
-                                          BorderRadiusStyle.customBorderBL40),
-                              child: Column(
-                                  mainAxisSize: MainAxisSize.min,
-                                  mainAxisAlignment: MainAxisAlignment.end,
-                                  children: [
-                                    CustomAppBar(
-                                        height: getVerticalSize(40),
-                                        leadingWidth: 60,
-                                        leading: AppbarImage(
-                                            height: getVerticalSize(17),
-                                            width: getHorizontalSize(30),
-                                            svgPath: ImageConstant.imgArrowleft,
-                                            margin:
-                                                getMargin(left: 30, bottom: 5),
-                                            onTap: onTapArrowleft2),
-                                        centerTitle: true,
-                                        title: AppbarTitle(
-                                            text: "lbl_profile".tr)),
-                                    Container(
-                                        height: getVerticalSize(105),
-                                        width: getHorizontalSize(100),
-                                        margin: getMargin(top: 20),
-                                        child: Stack(
-                                            alignment: Alignment.bottomRight,
-                                            children: [
-                                              CircleAvatar(
-                                                backgroundImage: NetworkImage(
-                                                    controller.profilePictureUrl
-                                                        .value),
-                                                radius: 50,
-                                              ),
-                                              CustomImageView(
-                                                  svgPath: ImageConstant
-                                                      .imgUploadbutton,
-                                                  height: getVerticalSize(31),
-                                                  width: getHorizontalSize(32),
-                                                  alignment:
-                                                      Alignment.bottomRight,
-                                                  margin: getMargin(right: 3))
-                                            ])),
-                                    Padding(
-                                        padding: getPadding(top: 8),
-                                        child: Text(controller.name.value,
-                                            overflow: TextOverflow.ellipsis,
-                                            textAlign: TextAlign.left,
-                                            style: AppStyle.txtRalewayBold20)),
-                                    Padding(
-                                        padding: getPadding(top: 4),
-                                        child: Text(controller.email.value,
-                                            overflow: TextOverflow.ellipsis,
-                                            textAlign: TextAlign.left,
-                                            style:
-                                                AppStyle.txtRalewaySemiBold15))
-                                  ]))),
+                        width: double.maxFinite,
+                        child: Container(
+                          margin: getMargin(left: 0),
+                          padding: getPadding(top: 20, bottom: 30),
+                          decoration: AppDecoration.fillBluegray700.copyWith(
+                              borderRadius: BorderRadiusStyle.customBorderBL40),
+                          child: Column(
+                              mainAxisSize: MainAxisSize.min,
+                              mainAxisAlignment: MainAxisAlignment.end,
+                              children: [
+                                CustomAppBar(
+                                    height: getVerticalSize(20),
+                                    leadingWidth: 60,
+                                    leading: AppbarImage(
+                                        height: getVerticalSize(17),
+                                        width: getHorizontalSize(30),
+                                        svgPath: ImageConstant.imgArrowleft,
+                                        margin: getMargin(left: 30, bottom: 5),
+                                        onTap: onTapArrowleft2),
+                                    centerTitle: true,
+                                    title: AppbarTitle(text: "lbl_profile".tr)),
+                                Container(
+                                  height: getVerticalSize(105),
+                                  width: getHorizontalSize(100),
+                                  margin: getMargin(top: 20),
+                                  child: CustomImagePicker(
+                                    size: 50,
+                                    currentImage: controller
+                                        .profilePictureUrl.value
+                                        .toString(),
+                                    onImageSelected: (File image) {
+                                      controller.uploadImage(image);
+                                    },
+                                  ),
+                                ),
+                                Padding(
+                                    padding: getPadding(top: 8),
+                                    child: Text(controller.name.value,
+                                        overflow: TextOverflow.ellipsis,
+                                        textAlign: TextAlign.left,
+                                        style: AppStyle.txtRalewayBold20)),
+                                Padding(
+                                  padding: getPadding(top: 4),
+                                  child: Text(controller.email.value,
+                                      overflow: TextOverflow.ellipsis,
+                                      textAlign: TextAlign.left,
+                                      style: AppStyle.txtRalewaySemiBold15),
+                                ),
+                                Padding(
+                                  padding: getPadding(top: 4),
+                                  child: Container(
+                                    height: 20,
+                                    width: 70,
+                                    decoration: BoxDecoration(
+                                      borderRadius: BorderRadius.circular(25),
+                                      color: Colors.blue,
+                                    ),
+                                    child: Center(
+                                      child: Text(
+                                        controller.role.value,
+                                        style: TextStyle(
+                                          color: Colors.white,
+                                          fontWeight: FontWeight.bold,
+                                        ),
+                                      ),
+                                    ),
+                                  ),
+                                ),
+                              ]),
+                        ),
+                      ),
                       Align(
-                          alignment: Alignment.centerLeft,
-                          child: Padding(
-                              padding: getPadding(left: 49, top: 51),
-                              child: Text("lbl_name".tr,
-                                  overflow: TextOverflow.ellipsis,
-                                  textAlign: TextAlign.left,
-                                  style: AppStyle.txtPoppinsMedium14))),
+                        alignment: Alignment.centerLeft,
+                        child: Padding(
+                          padding: getPadding(left: 49, top: 51),
+                          child: Text("lbl_name".tr,
+                              overflow: TextOverflow.ellipsis,
+                              textAlign: TextAlign.left,
+                              style: AppStyle.txtPoppinsMedium14),
+                        ),
+                      ),
                       CustomTextFormField(
                           focusNode: FocusNode(),
-                          controller: controller.groupFourController,
+                          controller: controller.nameController,
                           hintText: "lbl_full_name".tr,
                           margin: getMargin(left: 49, top: 2, right: 47),
                           validator: (value) {
@@ -121,8 +137,9 @@ class MyProfileScreen extends GetWidget<MyProfileController> {
                                   style: AppStyle.txtPoppinsMedium14))),
                       CustomTextFormField(
                           focusNode: FocusNode(),
-                          controller: controller.groupThreeController,
+                          controller: controller.emailController,
                           hintText: "lbl_email_address".tr,
+                          enabled: false,
                           margin: getMargin(left: 49, top: 2, right: 47),
                           textInputType: TextInputType.emailAddress,
                           validator: (value) {
@@ -142,7 +159,7 @@ class MyProfileScreen extends GetWidget<MyProfileController> {
                                   style: AppStyle.txtPoppinsMedium14))),
                       CustomTextFormField(
                           focusNode: FocusNode(),
-                          controller: controller.groupTwoController,
+                          controller: controller.phoneNoController,
                           hintText: "lbl_phone_number".tr,
                           margin: getMargin(left: 49, top: 5, right: 47),
                           textInputType: TextInputType.phone,
@@ -160,17 +177,19 @@ class MyProfileScreen extends GetWidget<MyProfileController> {
                                   overflow: TextOverflow.ellipsis,
                                   textAlign: TextAlign.left,
                                   style: AppStyle.txtPoppinsMedium14))),
-                      CustomTextFormField(
-                          focusNode: FocusNode(),
-                          controller: controller.groupOneController,
-                          hintText: "lbl_mm_dd_yyyy".tr,
-                          margin: getMargin(left: 49, top: 2, right: 47),
-                          textInputAction: TextInputAction.done),
+                      Container(
+                        margin: getMargin(left: 49, top: 2, right: 47),
+                        child: CustomDatePicker(
+                          textEditingController: controller.dobController,
+                        ),
+                      ),
                       CustomButton(
-                          height: getVerticalSize(40),
-                          width: getHorizontalSize(283),
-                          text: "lbl_update".tr,
-                          margin: getMargin(top: 60)),
+                        height: getVerticalSize(40),
+                        width: getHorizontalSize(283),
+                        text: "lbl_update".tr,
+                        margin: getMargin(top: 30),
+                        onTap: onTapUpdate,
+                      ),
                       CustomButton(
                           height: getVerticalSize(40),
                           width: getHorizontalSize(283),
@@ -193,6 +212,10 @@ class MyProfileScreen extends GetWidget<MyProfileController> {
 
   onTapArrowleft2() {
     Get.back();
+  }
+
+  void onTapUpdate() {
+    controller.updateUserData();
   }
 
   onTapChangepassword() {

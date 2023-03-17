@@ -22,7 +22,7 @@ class Student {
   static Student fromDocumentSnapshot(DocumentSnapshot snapshot) {
     Map<String, dynamic> data = snapshot.data()! as Map<String, dynamic>;
     return Student(
-      id:snapshot.id,
+      id: snapshot.id,
       name: data['name'],
       email: data['email'],
       image: data['image'],
