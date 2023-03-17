@@ -1,5 +1,9 @@
+import 'dart:io';
+
 import '../../data/models/teacher.dart';
 
+import '../../widgets/custom_button.dart';
+import '../../widgets/custom_imagepicker.dart';
 import 'controller/employee_dashboard_teachers_list_controller.dart';
 
 import 'package:eschool/core/app_export.dart';
@@ -46,7 +50,10 @@ class EmployeeDashboardTeachersListScreen extends StatelessWidget {
                             teacher.subject,
                             textAlign: TextAlign.left,
                           ),
-                          onTap: () {},
+                          onTap: () {
+                            _showTeacherModalBottomSheet(
+                                context, teacher.id,teacher.image);
+                          },
                         ),
                       ),
                     );
@@ -67,4 +74,80 @@ class EmployeeDashboardTeachersListScreen extends StatelessWidget {
       ),
     );
   }
+  void _showTeacherModalBottomSheet(BuildContext context, userId, String image) {
+    showModalBottomSheet(
+        context: context,
+        isScrollControlled: true,
+        builder: (BuildContext context) {
+          return SingleChildScrollView(
+            physics: ClampingScrollPhysics(),
+            child: Container(
+              padding: EdgeInsets.all(16.0),
+              child: Column(
+                mainAxisSize: MainAxisSize.min,
+                crossAxisAlignment: CrossAxisAlignment.stretch,
+                children: [
+                  Text(
+                    'Edit Teacher',
+                    style: TextStyle(
+                      fontWeight: FontWeight.bold,
+                      fontSize: 20.0,
+                    ),
+                  ),
+                  SizedBox(height: 16.0),
+                  Align(
+                    alignment: Alignment.center,
+                    child: Container(
+                      height: getVerticalSize(105),
+                      width: getHorizontalSize(100),
+                      child: CustomImagePicker(
+                        currentImage: image,
+                        onImageSelected: (File img) {
+                          // pass the selected image to the add teacher controller
+                          controller
+                              .uploadImage(img);
+                        },
+                        size: 50,
+                      ),
+                    ),
+                  ),
+                  TextFormField(
+                    controller: controller.editTeacherNameController,
+                    decoration: InputDecoration(labelText: 'Name'),
+                  ),
+                  SizedBox(height: 16.0),
+                  TextFormField(
+                    controller: controller.editTeacherEmailController,
+                    decoration: InputDecoration(labelText: 'Email'),
+                    enabled: false,
+                  ),
+                  SizedBox(height: 16.0),
+                  TextFormField(
+                    controller: controller.editTeacherPhoneController,
+                    decoration: InputDecoration(labelText: 'Phone Number'),
+                  ),
+                  SizedBox(height: 16.0),
+                  TextFormField(
+                    controller: controller.editTeacherSubjectController,
+                    decoration: InputDecoration(labelText: 'Subject'),
+                  ),
+                  SizedBox(height: 16.0),
+                  CustomButton(
+                      height: getVerticalSize(45),
+                      text: "lbl_save".tr,
+                      margin: getMargin(left: 42, top: 50, right: 42),
+                      fontStyle: ButtonFontStyle.RalewayBold20,
+                      onTap: (){
+                        controller.updateTeacherData(userId);
+                        Navigator.pop(context);
+                      }),
+
+                  SizedBox(height: MediaQuery.of(context).viewInsets.bottom),
+                ],
+              ),
+            ),
+          );
+        });
+  }
+
 }

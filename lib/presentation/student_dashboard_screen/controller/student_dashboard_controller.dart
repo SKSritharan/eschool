@@ -2,7 +2,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:eschool/core/app_export.dart';
 import 'package:eschool/presentation/student_dashboard_screen/models/student_dashboard_model.dart';
 
-import '../../../data/models/Teacher.dart';
+import '../../../data/models/teacher.dart';
 
 class StudentDashboardController extends GetxController {
   final FirebaseFirestore _firestore = FirebaseFirestore.instance;

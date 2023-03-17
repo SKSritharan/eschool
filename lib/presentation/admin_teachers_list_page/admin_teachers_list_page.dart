@@ -3,6 +3,7 @@ import 'dart:io';
 import 'package:eschool/widgets/custom_imagepicker.dart';
 
 import '../../data/models/teacher.dart';
+import '../../widgets/custom_button.dart';
 import '../admin_teachers_list_page/widgets/listrectangleone4_item_widget.dart';
 import 'controller/admin_teachers_list_controller.dart';
 import 'models/admin_teachers_list_model.dart';
@@ -90,7 +91,7 @@ class AdminTeachersListPage extends StatelessWidget {
                                 textAlign: TextAlign.left,
                               ),
                               onTap: () => _showTeacherModalBottomSheet(
-                                  context, teacher.id),
+                                  context, teacher.id,teacher.image),
                             ),
                           ),
                         ));
@@ -112,7 +113,7 @@ class AdminTeachersListPage extends StatelessWidget {
     );
   }
 
-  void _showTeacherModalBottomSheet(BuildContext context, userId) {
+  void _showTeacherModalBottomSheet(BuildContext context, userId, String image) {
     showModalBottomSheet(
         context: context,
         isScrollControlled: true,
@@ -133,32 +134,53 @@ class AdminTeachersListPage extends StatelessWidget {
                     ),
                   ),
                   SizedBox(height: 16.0),
-                  CustomImagePicker(
-                    size: 50,
-                    onImageSelected: (File file) {},
-                    currentImage:
-                        "https://images.unsplash.com/photo-1633332755192-727a05c4013d?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxzZWFyY2h8Mnx8dXNlcnxlbnwwfHwwfHw%3D&w=1000&q=80",
+                  Align(
+                    alignment: Alignment.center,
+                    child: Container(
+                      height: getVerticalSize(105),
+                      width: getHorizontalSize(100),
+                      child: CustomImagePicker(
+                        currentImage: image,
+                        onImageSelected: (File img) {
+                          // pass the selected image to the add teacher controller
+                          controller
+                              .uploadImage(img);
+                        },
+                        size: 50,
+                      ),
+                    ),
                   ),
                   TextFormField(
-                    controller: null,
+                    controller: controller.editTeacherNameController,
                     decoration: InputDecoration(labelText: 'Name'),
                   ),
                   SizedBox(height: 16.0),
                   TextFormField(
-                    controller: null,
+                    controller: controller.editTeacherEmailController,
                     decoration: InputDecoration(labelText: 'Email'),
                     enabled: false,
                   ),
                   SizedBox(height: 16.0),
                   TextFormField(
-                    controller: null,
+                    controller: controller.editTeacherPhoneController,
+                    decoration: InputDecoration(labelText: 'Phone Number'),
+                  ),
+                  SizedBox(height: 16.0),
+                  TextFormField(
+                    controller: controller.editTeacherSubjectController,
                     decoration: InputDecoration(labelText: 'Subject'),
                   ),
                   SizedBox(height: 16.0),
-                  ElevatedButton(
-                    child: Text('Save'),
-                    onPressed: () {},
-                  ),
+                  CustomButton(
+                      height: getVerticalSize(45),
+                      text: "lbl_save".tr,
+                      margin: getMargin(left: 42, top: 50, right: 42),
+                      fontStyle: ButtonFontStyle.RalewayBold20,
+                      onTap: (){
+                        controller.updateTeacherData(userId);
+                        Navigator.pop(context);
+                      }),
+
                   SizedBox(height: MediaQuery.of(context).viewInsets.bottom),
                 ],
               ),
