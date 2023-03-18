@@ -1,10 +1,13 @@
 import 'dart:io';
 
+import 'package:awesome_snackbar_content/awesome_snackbar_content.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:eschool/core/app_export.dart';
 import 'package:eschool/presentation/admin_students_list_page/models/admin_students_list_model.dart';
 import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/cupertino.dart';
+import 'package:flutter/material.dart';
+import 'package:fluttertoast/fluttertoast.dart';
 
 import '../../../data/models/student.dart';
 
@@ -15,6 +18,8 @@ class AdminStudentsListController extends GetxController {
   TextEditingController editStudentPhoneController = TextEditingController();
 
   final FirebaseFirestore _firestore = FirebaseFirestore.instance;
+  final NetworkInfoI networkInfo = NetworkInfo(Connectivity());
+  late SnackBar snackBar;
   RxList<Student> studentsList = <Student>[].obs;
 
   @override
@@ -24,19 +29,51 @@ class AdminStudentsListController extends GetxController {
 
   //update Student data
   Future<void> updateStudentData(String userId) async {
-    try {
-      final userRef = _firestore.collection('users').doc(userId);
+    bool isConnected = await networkInfo.isConnected();
+    if (isConnected) {
+      try {
+        final userRef = _firestore.collection('users').doc(userId);
 
-      await userRef.update({
-        'name': editStudentNameController.text,
-        'phoneNo': editStudentPhoneController.text,
-        'class': editStudentClzController.text,
-      });
+        await userRef.update({
+          'name': editStudentNameController.text,
+          'phoneNo': editStudentPhoneController.text,
+          'class': editStudentClzController.text,
+        });
 
-      Get.snackbar('Success', 'Student Updated successfully');
-    } catch (error) {
-      Get.snackbar('Error', 'Failed to update Student');
-      print(error);
+        // Show success message
+        snackBar = SnackBar(
+          elevation: 0,
+          behavior: SnackBarBehavior.floating,
+          backgroundColor: Colors.transparent,
+          content: AwesomeSnackbarContent(
+            contentType: ContentType.success,
+            title: 'Success',
+            message: 'Student updated successfully.',
+          ),
+        );
+      } catch (e) {
+        // Show error message
+        snackBar = SnackBar(
+          elevation: 0,
+          behavior: SnackBarBehavior.floating,
+          backgroundColor: Colors.transparent,
+          content: AwesomeSnackbarContent(
+            contentType: ContentType.failure,
+            title: 'Oh, oh!',
+            message: 'Error while updating student',
+          ),
+        );
+      }
+    } else {
+      Fluttertoast.showToast(
+        msg: 'No internet connection. Please turn on your internet.',
+        toastLength: Toast.LENGTH_LONG,
+        gravity: ToastGravity.BOTTOM,
+        timeInSecForIosWeb: 5,
+        backgroundColor: Colors.red,
+        textColor: Colors.white,
+        fontSize: 16.0,
+      );
     }
   }
 
@@ -59,25 +96,53 @@ class AdminStudentsListController extends GetxController {
             .toList());
   }
 
-  void deleteStudent(String studentId) async {
-    try {
-      // Delete user from Firebase Authentication
+  Future<void> deleteStudent(String studentId) async {
+    bool isConnected = await networkInfo.isConnected();
+    if (isConnected) {
+      try {
+        // Delete user from users collection
+        await FirebaseFirestore.instance
+            .collection('users')
+            .doc(studentId)
+            .delete();
 
-      // Delete user from users collection
-      await FirebaseFirestore.instance
-          .collection('users')
-          .doc(studentId)
-          .delete();
+        // Remove user from local list
+        studentsList.removeWhere((student) => student.id == studentId);
 
-      // Remove user from local list
-      studentsList.removeWhere((student) => student.id == studentId);
-
-      // Show success message
-      Get.snackbar('Success', 'Student deleted successfully');
-    } catch (e) {
-      // Show error message
-      Get.snackbar('Error', 'Failed to delete Student');
-      print('Error deleting student: $e');
+        // Show success message
+        snackBar = SnackBar(
+          elevation: 0,
+          behavior: SnackBarBehavior.floating,
+          backgroundColor: Colors.transparent,
+          content: AwesomeSnackbarContent(
+            contentType: ContentType.success,
+            title: 'Success',
+            message: 'Student deleted successfully.',
+          ),
+        );
+      } catch (e) {
+        // Show error message
+        snackBar = SnackBar(
+          elevation: 0,
+          behavior: SnackBarBehavior.floating,
+          backgroundColor: Colors.transparent,
+          content: AwesomeSnackbarContent(
+            contentType: ContentType.failure,
+            title: 'Oh, oh!',
+            message: 'Error while deleting Student',
+          ),
+        );
+      }
+    } else {
+      Fluttertoast.showToast(
+        msg: 'No internet connection. Please turn on your internet.',
+        toastLength: Toast.LENGTH_LONG,
+        gravity: ToastGravity.BOTTOM,
+        timeInSecForIosWeb: 5,
+        backgroundColor: Colors.red,
+        textColor: Colors.white,
+        fontSize: 16.0,
+      );
     }
   }
 

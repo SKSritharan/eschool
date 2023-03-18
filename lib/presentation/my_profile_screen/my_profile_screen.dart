@@ -188,7 +188,7 @@ class MyProfileScreen extends GetWidget<MyProfileController> {
                         width: getHorizontalSize(283),
                         text: "lbl_update".tr,
                         margin: getMargin(top: 30),
-                        onTap: onTapUpdate,
+                        onTap: () => onTapUpdate(context),
                       ),
                       CustomButton(
                           height: getVerticalSize(40),
@@ -214,8 +214,13 @@ class MyProfileScreen extends GetWidget<MyProfileController> {
     Get.back();
   }
 
-  void onTapUpdate() {
-    controller.updateUserData();
+  void onTapUpdate(context) async {
+    if (_formKey.currentState!.validate()) {
+      await controller.updateUserData();
+    }
+    ScaffoldMessenger.of(context)
+      ..hideCurrentSnackBar()
+      ..showSnackBar(controller.snackBar);
   }
 
   onTapChangepassword() {

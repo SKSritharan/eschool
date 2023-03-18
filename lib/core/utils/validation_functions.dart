@@ -48,7 +48,26 @@ bool isText(String? inputString, {bool isRequired = false}) {
   }
 
   if (inputString != null) {
-    const pattern = r'^[a-zA-Z]+$';
+    const pattern = r'^[a-zA-Z ]+$';
+
+    final regExp = RegExp(pattern);
+
+    isInputStringValid = regExp.hasMatch(inputString);
+  }
+
+  return isInputStringValid;
+}
+
+/// Checks if string and number
+bool isTextAndNumber(String? inputString, {bool isRequired = false}) {
+  bool isInputStringValid = false;
+
+  if ((inputString == null ? true : inputString.isEmpty) && !isRequired) {
+    isInputStringValid = true;
+  }
+
+  if (inputString != null) {
+    const pattern = r'^[a-zA-Z0-9]+$';
 
     final regExp = RegExp(pattern);
 

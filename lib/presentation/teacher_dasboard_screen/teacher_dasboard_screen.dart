@@ -60,6 +60,11 @@ class TeacherDasboardScreen extends GetWidget<TeacherDasboardController> {
                 builder: (context, snapshot) {
                   if (snapshot.hasData) {
                     final students = snapshot.data!;
+                    if (students.length == 0) {
+                      return Center(
+                        child: Text('No students added yet.'),
+                      );
+                    }
                     return ListView.builder(
                       itemCount: students.length,
                       itemBuilder: (context, index) {
@@ -179,8 +184,11 @@ class TeacherDasboardScreen extends GetWidget<TeacherDasboardController> {
                       text: "lbl_save".tr,
                       margin: getMargin(left: 42, top: 50, right: 42),
                       fontStyle: ButtonFontStyle.RalewayBold20,
-                      onTap: () {
-                        controller.updateStudentData(student.id);
+                      onTap: () async {
+                        await controller.updateStudentData(student.id);
+                        ScaffoldMessenger.of(context)
+                          ..hideCurrentSnackBar()
+                          ..showSnackBar(controller.snackBar);
                         Navigator.pop(context);
                       }),
                   SizedBox(height: MediaQuery.of(context).viewInsets.bottom),
