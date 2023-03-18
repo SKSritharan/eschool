@@ -51,8 +51,9 @@ class _CustomImagePickerState extends State<CustomImagePicker> {
     if (image != null) {
       setState(() {
         _image = File(image.path);
+        widget.onImageSelected(_image!);
+        widget.currentImage = "";
       });
-      widget.onImageSelected(_image!);
     }
   }
 

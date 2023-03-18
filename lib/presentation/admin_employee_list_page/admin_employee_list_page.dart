@@ -181,6 +181,7 @@ class AdminEmployeeListPage extends StatelessWidget {
                       margin: getMargin(left: 42, top: 50, right: 42),
                       fontStyle: ButtonFontStyle.RalewayBold20,
                       onTap: () {
+                        FocusScope.of(context).requestFocus(new FocusNode());
                         controller.updateEmployeeData(employee.id);
                         ScaffoldMessenger.of(context)
                           ..hideCurrentSnackBar()

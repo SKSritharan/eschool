@@ -159,6 +159,7 @@ class AddTeacherScreen extends GetWidget<AddTeacherController> {
   }
 
   onTapSubmit(context) async {
+    FocusScope.of(context).requestFocus(new FocusNode());
     if (_formKey.currentState!.validate()) {
       await submitController.createTeacherAccount();
       ScaffoldMessenger.of(context)

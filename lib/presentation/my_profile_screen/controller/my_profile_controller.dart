@@ -19,6 +19,8 @@ class MyProfileController extends GetxController {
   Rx<MyProfileModel> myProfileModelObj = MyProfileModel().obs;
   late SnackBar snackBar;
   final NetworkInfoI networkInfo = NetworkInfo(Connectivity());
+  final FirebaseAuth _auth = FirebaseAuth.instance;
+  final FirebaseFirestore _firestore = FirebaseFirestore.instance;
 
   RxString name = "".obs;
   RxString email = "".obs;
@@ -27,7 +29,7 @@ class MyProfileController extends GetxController {
   RxString profilePictureUrl = "".obs;
   RxString role = "".obs;
 
-  String? imageUrl;
+  String imageUrl = "";
 
   void uploadImage(File image) {
     uploadImageToStorage(image);
@@ -90,13 +92,11 @@ class MyProfileController extends GetxController {
 
   //update user data
   Future<void> updateUserData() async {
+    final userId = _auth.currentUser!.uid;
     bool isConnected = await networkInfo.isConnected();
-    final userId = FirebaseAuth.instance.currentUser!.uid;
     if (isConnected) {
       try {
-        final userRef =
-            FirebaseFirestore.instance.collection('users').doc(userId);
-
+        final userRef = _firestore.collection('users').doc(userId);
         await userRef.update({
           'name': nameController.text,
           'phoneNo': phoneNoController.text,
@@ -113,6 +113,13 @@ class MyProfileController extends GetxController {
             message: 'Profile updated successfully.',
           ),
         );
+
+        //set shared prefference values
+        SharedPreferences prefs = await SharedPreferences.getInstance();
+        prefs.setString("user_name", nameController.text);
+        prefs.setString("user_phoneNo", phoneNoController.text);
+        prefs.setString("user_dob", dobController.text);
+        prefs.setString("user_image", imageUrl as String);
       } on FirebaseAuthException catch (e) {
         snackBar = SnackBar(
           elevation: 0,
@@ -135,6 +142,47 @@ class MyProfileController extends GetxController {
         textColor: Colors.white,
         fontSize: 16.0,
       );
+    }
+  }
+
+  //delete user account
+  Future<void> deleteAndLogoutUser() async {
+    User? currentUser = _auth.currentUser;
+
+    if (currentUser != null) {
+      try {
+        // Delete user document from Firestore users collection
+        await _firestore.collection('users').doc(currentUser.uid).delete();
+
+        // Delete user account from Firebase Authentication
+        await currentUser.delete();
+
+        // Show success message and redirect to login screen
+        snackBar = SnackBar(
+          elevation: 0,
+          behavior: SnackBarBehavior.floating,
+          backgroundColor: Colors.transparent,
+          content: AwesomeSnackbarContent(
+            contentType: ContentType.success,
+            title: 'Account deleted',
+            message: 'Your account has been successfully deleted.',
+          ),
+        );
+        // Log out user
+        await _auth.signOut();
+      } catch (e) {
+        // Show error message
+        snackBar = SnackBar(
+          elevation: 0,
+          behavior: SnackBarBehavior.floating,
+          backgroundColor: Colors.transparent,
+          content: AwesomeSnackbarContent(
+            contentType: ContentType.failure,
+            title: 'Error',
+            message: 'An error occurred while deleting your account: $e',
+          ),
+        );
+      }
     }
   }
 

@@ -119,6 +119,7 @@ class PasswordChangeScreen extends GetWidget<PasswordChangeController> {
   }
 
   void onTapSave(context) async {
+    FocusScope.of(context).requestFocus(new FocusNode());
     if (_formKey.currentState!.validate()) {
       await controller.changePassword();
       ScaffoldMessenger.of(context)

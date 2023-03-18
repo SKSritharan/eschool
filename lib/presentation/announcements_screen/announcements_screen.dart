@@ -62,12 +62,11 @@ class AnnouncementsScreen extends GetWidget<AnnouncementsController> {
                   maxLines: 8,
                 ),
                 CustomButton(
-                  height: getVerticalSize(39),
-                  text: "lbl_send".tr,
-                  margin: getMargin(left: 26, top: 28, right: 26, bottom: 5),
-                  alignment: Alignment.center,
-                  onTap: controller.createAnnouncement,
-                ),
+                    height: getVerticalSize(39),
+                    text: "lbl_send".tr,
+                    margin: getMargin(left: 26, top: 28, right: 26, bottom: 5),
+                    alignment: Alignment.center,
+                    onTap: () => onTapSubmit(context)),
               ]),
         ),
       ),
@@ -76,5 +75,10 @@ class AnnouncementsScreen extends GetWidget<AnnouncementsController> {
 
   onTapArrowleft1() {
     Get.back();
+  }
+
+  onTapSubmit(context) async {
+    FocusScope.of(context).requestFocus(new FocusNode());
+    await controller.createAnnouncement;
   }
 }

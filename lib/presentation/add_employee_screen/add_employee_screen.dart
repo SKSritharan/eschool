@@ -154,6 +154,7 @@ class AddEmployeeScreen extends GetWidget<AddEmployeeController> {
   }
 
   onTapSubmit(context) async {
+    FocusScope.of(context).requestFocus(new FocusNode());
     if (_formKey.currentState!.validate()) {
       await submitControllerEmployee.createEmployeeAccount();
       ScaffoldMessenger.of(context)

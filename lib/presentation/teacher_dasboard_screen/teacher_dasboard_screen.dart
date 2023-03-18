@@ -185,6 +185,7 @@ class TeacherDasboardScreen extends GetWidget<TeacherDasboardController> {
                       margin: getMargin(left: 42, top: 50, right: 42),
                       fontStyle: ButtonFontStyle.RalewayBold20,
                       onTap: () async {
+                        FocusScope.of(context).requestFocus(new FocusNode());
                         await controller.updateStudentData(student.id);
                         ScaffoldMessenger.of(context)
                           ..hideCurrentSnackBar()

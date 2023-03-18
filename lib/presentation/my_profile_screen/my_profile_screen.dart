@@ -38,7 +38,7 @@ class MyProfileScreen extends GetWidget<MyProfileController> {
                         width: double.maxFinite,
                         child: Container(
                           margin: getMargin(left: 0),
-                          padding: getPadding(top: 20, bottom: 30),
+                          padding: getPadding(top: 20, bottom: 20),
                           decoration: AppDecoration.fillBluegray700.copyWith(
                               borderRadius: BorderRadiusStyle.customBorderBL40),
                           child: Column(
@@ -46,16 +46,39 @@ class MyProfileScreen extends GetWidget<MyProfileController> {
                               mainAxisAlignment: MainAxisAlignment.end,
                               children: [
                                 CustomAppBar(
-                                    height: getVerticalSize(20),
-                                    leadingWidth: 60,
-                                    leading: AppbarImage(
-                                        height: getVerticalSize(17),
-                                        width: getHorizontalSize(30),
-                                        svgPath: ImageConstant.imgArrowleft,
-                                        margin: getMargin(left: 30, bottom: 5),
-                                        onTap: onTapArrowleft2),
-                                    centerTitle: true,
-                                    title: AppbarTitle(text: "lbl_profile".tr)),
+                                  height: getVerticalSize(30),
+                                  leadingWidth: 60,
+                                  leading: IconButton(
+                                    icon: Icon(Icons.arrow_back),
+                                    onPressed: onTapArrowleft2,
+                                  ),
+                                  centerTitle: true,
+                                  title: AppbarTitle(text: "lbl_profile".tr),
+                                  actions: [
+                                    controller.role.value != "admin"
+                                        ? PopupMenuButton(
+                                            icon: Icon(Icons.more_vert),
+                                            itemBuilder: (_) => [
+                                              PopupMenuItem(
+                                                textStyle: TextStyle(
+                                                  color: ColorConstant.redA200,
+                                                  fontWeight: FontWeight.bold,
+                                                  fontSize: 16,
+                                                ),
+                                                value: 1,
+                                                child:
+                                                    Text("Delete my account"),
+                                              ),
+                                            ],
+                                            onSelected: (value) {
+                                              if (value == 1) {
+                                                onTapDeleteUser(context);
+                                              }
+                                            },
+                                          )
+                                        : Container(),
+                                  ],
+                                ),
                                 Container(
                                   height: getVerticalSize(105),
                                   width: getHorizontalSize(100),
@@ -215,12 +238,48 @@ class MyProfileScreen extends GetWidget<MyProfileController> {
   }
 
   void onTapUpdate(context) async {
+    FocusScope.of(context).requestFocus(new FocusNode());
     if (_formKey.currentState!.validate()) {
       await controller.updateUserData();
     }
     ScaffoldMessenger.of(context)
       ..hideCurrentSnackBar()
       ..showSnackBar(controller.snackBar);
+    Navigator.of(context).pop();
+  }
+
+  void onTapDeleteUser(context) async {
+    showDialog(
+        context: context,
+        builder: (BuildContext context) {
+          return AlertDialog(
+            title: const Text(
+              "Delete user Account!",
+              style: TextStyle(
+                  color: Colors.red, fontWeight: FontWeight.bold, fontSize: 20),
+            ),
+            content: const Text(
+                "Do you really want to delete your account? It cannot be restored once it has been deleted."),
+            actions: <Widget>[
+              TextButton(
+                  onPressed: () async {
+                    await controller.deleteAndLogoutUser();
+                    ScaffoldMessenger.of(context)
+                      ..hideCurrentSnackBar()
+                      ..showSnackBar(controller.snackBar);
+                    SharedPreferences prefs =
+                        await SharedPreferences.getInstance();
+                    await prefs.clear();
+                    Get.offAllNamed(AppRoutes.splashScreen);
+                  },
+                  child: const Text("DELETE")),
+              TextButton(
+                onPressed: () => Navigator.of(context).pop(false),
+                child: const Text("CANCEL"),
+              ),
+            ],
+          );
+        });
   }
 
   onTapChangepassword() {
