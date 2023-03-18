@@ -27,6 +27,11 @@ class AdminTeachersListPage extends StatelessWidget {
             builder: (context, snapshot) {
               if (snapshot.hasData) {
                 final teachers = snapshot.data!;
+                if (teachers.length == 0) {
+                  return Center(
+                    child: Text('No teachers added yet.'),
+                  );
+                }
                 return ListView.builder(
                   itemCount: teachers.length,
                   itemBuilder: (context, index) {
@@ -44,7 +49,10 @@ class AdminTeachersListPage extends StatelessWidget {
                         key: UniqueKey(),
                         direction: DismissDirection.startToEnd,
                         onDismissed: (direction) async {
-                          controller.deleteTeacher(teacher.id);
+                          await controller.deleteTeacher(teacher.id);
+                          ScaffoldMessenger.of(context)
+                            ..hideCurrentSnackBar()
+                            ..showSnackBar(controller.snackBar);
                         },
                         confirmDismiss: (DismissDirection direction) async {
                           return await showDialog(
@@ -175,8 +183,11 @@ class AdminTeachersListPage extends StatelessWidget {
                       text: "lbl_save".tr,
                       margin: getMargin(left: 42, top: 50, right: 42),
                       fontStyle: ButtonFontStyle.RalewayBold20,
-                      onTap: () {
-                        controller.updateTeacherData(teacher.id);
+                      onTap: () async {
+                        await controller.updateTeacherData(teacher.id);
+                        ScaffoldMessenger.of(context)
+                          ..hideCurrentSnackBar()
+                          ..showSnackBar(controller.snackBar);
                         Navigator.pop(context);
                       }),
                   SizedBox(height: MediaQuery.of(context).viewInsets.bottom),

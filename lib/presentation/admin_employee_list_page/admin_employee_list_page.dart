@@ -28,6 +28,11 @@ class AdminEmployeeListPage extends StatelessWidget {
             builder: (context, snapshot) {
               if (snapshot.hasData) {
                 final employees = snapshot.data!;
+                if (employees.length == 0) {
+                  return Center(
+                    child: Text('No employees added yet.'),
+                  );
+                }
                 return ListView.builder(
                   itemCount: employees.length,
                   itemBuilder: (context, index) {
@@ -45,7 +50,10 @@ class AdminEmployeeListPage extends StatelessWidget {
                       key: UniqueKey(),
                       direction: DismissDirection.startToEnd,
                       onDismissed: (direction) async {
-                        controller.deleteEmployee(employee.id);
+                        await controller.deleteEmployee(employee.id);
+                        ScaffoldMessenger.of(context)
+                          ..hideCurrentSnackBar()
+                          ..showSnackBar(controller.snackBar);
                       },
                       confirmDismiss: (DismissDirection direction) async {
                         return await showDialog(
@@ -92,8 +100,7 @@ class AdminEmployeeListPage extends StatelessWidget {
                               textAlign: TextAlign.left,
                             ),
                             onTap: () {
-                              _showTeacherModalBottomSheet(
-                                  context, employee);
+                              _showTeacherModalBottomSheet(context, employee);
                             },
                           ),
                         ),
@@ -117,8 +124,7 @@ class AdminEmployeeListPage extends StatelessWidget {
     );
   }
 
-  void _showTeacherModalBottomSheet(
-      BuildContext context, employee) {
+  void _showTeacherModalBottomSheet(BuildContext context, employee) {
     controller.editEmployeeNameController.text = employee.name;
     controller.editEmployeeEmailController.text = employee.email;
     controller.editEmployeePhoneController.text = employee.phoneNo;
@@ -176,6 +182,9 @@ class AdminEmployeeListPage extends StatelessWidget {
                       fontStyle: ButtonFontStyle.RalewayBold20,
                       onTap: () {
                         controller.updateEmployeeData(employee.id);
+                        ScaffoldMessenger.of(context)
+                          ..hideCurrentSnackBar()
+                          ..showSnackBar(controller.snackBar);
                         Navigator.pop(context);
                       }),
                   SizedBox(height: MediaQuery.of(context).viewInsets.bottom),

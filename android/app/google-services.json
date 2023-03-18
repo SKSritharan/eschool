@@ -1,33 +1,33 @@
 {
   "project_info": {
-    "project_number": "936587242361",
-    "project_id": "eschool-31391",
-    "storage_bucket": "eschool-31391.appspot.com"
+    "project_number": "704555717430",
+    "project_id": "eschool-950d4",
+    "storage_bucket": "eschool-950d4.appspot.com"
   },
   "client": [
     {
       "client_info": {
-        "mobilesdk_app_id": "1:936587242361:android:a62e9b8cc81fd584a0dda8",
+        "mobilesdk_app_id": "1:704555717430:android:9bd2891b3f438bbc7e9997",
         "android_client_info": {
           "package_name": "com.eschool.app"
         }
       },
       "oauth_client": [
         {
-          "client_id": "936587242361-p5aqhpkq5v6ebg6tspna27f2eia3faob.apps.googleusercontent.com",
+          "client_id": "704555717430-6aechj31d2louo974of9tojf7l3fa9u3.apps.googleusercontent.com",
           "client_type": 3
         }
       ],
       "api_key": [
         {
-          "current_key": "AIzaSyDt06yirhY9LijivACN-TPbgLW-onr9rg8"
+          "current_key": "AIzaSyCJGfiRq48tR7FlAitOSdhArXQ96-1vRpY"
         }
       ],
       "services": {
         "appinvite_service": {
           "other_platform_oauth_client": [
             {
-              "client_id": "936587242361-p5aqhpkq5v6ebg6tspna27f2eia3faob.apps.googleusercontent.com",
+              "client_id": "704555717430-6aechj31d2louo974of9tojf7l3fa9u3.apps.googleusercontent.com",
               "client_type": 3
             }
           ]

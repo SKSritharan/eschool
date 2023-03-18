@@ -53,6 +53,11 @@ class StudentDashboardScreen extends GetWidget<StudentDashboardController> {
               builder: (context, snapshot) {
                 if (snapshot.hasData) {
                   final teachers = snapshot.data!;
+                  if (teachers.length == 0) {
+                    return Center(
+                      child: Text('No teachers to show.'),
+                    );
+                  }
                   return ListView.builder(
                     itemCount: teachers.length,
                     itemBuilder: (context, index) {

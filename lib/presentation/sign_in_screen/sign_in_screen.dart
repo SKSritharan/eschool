@@ -108,44 +108,69 @@ class SignInScreen extends GetWidget<SignInController> {
                     return null;
                   }),
               Align(
-                  alignment: Alignment.centerLeft,
-                  child: Padding(
-                      padding: getPadding(left: 42, top: 5),
-                      child: Text("lbl_password".tr,
-                          overflow: TextOverflow.ellipsis,
-                          textAlign: TextAlign.left,
-                          style: AppStyle.txtRalewaySemiBold15Gray90099
-                              .copyWith(
-                                  letterSpacing: getHorizontalSize(0.45))))),
-              CustomTextFormField(
-                  focusNode: FocusNode(),
-                  controller: controller.passwordvalueController,
-                  hintText: "lbl".tr,
-                  margin: getMargin(left: 42, top: 2, right: 42),
-                  variant: TextFormFieldVariant.FillGray100,
-                  padding: TextFormFieldPadding.PaddingT13_1,
-                  fontStyle: TextFormFieldFontStyle.RalewayBold15,
-                  textInputAction: TextInputAction.done,
-                  prefix: Container(
-                      margin:
-                          getMargin(left: 14, top: 14, right: 16, bottom: 14),
-                      decoration:
-                          BoxDecoration(color: ColorConstant.blueGray40099),
-                      child: CustomImageView(svgPath: ImageConstant.imgLock)),
-                  prefixConstraints:
-                      BoxConstraints(maxHeight: getVerticalSize(45)),
-                  suffix: Container(
+                alignment: Alignment.centerLeft,
+                child: Padding(
+                  padding: getPadding(left: 42, top: 5),
+                  child: Text(
+                    "lbl_password".tr,
+                    overflow: TextOverflow.ellipsis,
+                    textAlign: TextAlign.left,
+                    style: AppStyle.txtRalewaySemiBold15Gray90099.copyWith(
+                      letterSpacing: getHorizontalSize(0.45),
+                    ),
+                  ),
+                ),
+              ),
+              Obx(
+                () => CustomTextFormField(
+                    // focusNode: FocusNode(),
+                    isObscureText: controller.isNotVisible.value,
+                    controller: controller.passwordvalueController,
+                    hintText: "lbl".tr,
+                    margin: getMargin(left: 42, top: 2, right: 42),
+                    variant: TextFormFieldVariant.FillGray100,
+                    padding: TextFormFieldPadding.PaddingT13_1,
+                    fontStyle: TextFormFieldFontStyle.RalewayBold15,
+                    textInputAction: TextInputAction.done,
+                    prefix: Container(
+                        margin:
+                            getMargin(left: 14, top: 14, right: 16, bottom: 14),
+                        decoration:
+                            BoxDecoration(color: ColorConstant.blueGray40099),
+                        child: CustomImageView(svgPath: ImageConstant.imgLock)),
+                    prefixConstraints:
+                        BoxConstraints(maxHeight: getVerticalSize(45)),
+                    suffix: Container(
                       margin:
                           getMargin(left: 30, top: 17, right: 25, bottom: 13),
-                      child: CustomImageView(svgPath: ImageConstant.imgEye)),
-                  suffixConstraints:
-                      BoxConstraints(maxHeight: getVerticalSize(45))),
+                      child: InkWell(
+                        child: Padding(
+                          padding: const EdgeInsets.only(bottom: 5.0),
+                          child: Icon(controller.isNotVisible.value
+                              ? Icons.visibility_off
+                              : Icons.visibility),
+                        ),
+                        onTap: () => controller.isNotVisible.value =
+                            !controller.isNotVisible.value,
+                      ),
+                    ),
+                    suffixConstraints: BoxConstraints(
+                      maxHeight: getVerticalSize(45),
+                    ),
+                    validator: (value) {
+                      if (value == null || value.isEmpty) {
+                        return "Please enter the password";
+                      }
+                      return null;
+                    }),
+              ),
               CustomButton(
-                  height: getVerticalSize(45),
-                  text: "lbl_sign_in".tr,
-                  margin: getMargin(left: 42, top: 50, right: 42),
-                  fontStyle: ButtonFontStyle.RalewayBold20,
-                  onTap: onTapSignin),
+                height: getVerticalSize(45),
+                text: "lbl_sign_in".tr,
+                margin: getMargin(left: 42, top: 50, right: 42),
+                fontStyle: ButtonFontStyle.RalewayBold20,
+                onTap: () => onTapSignin(context),
+              ),
               Spacer(),
               CustomImageView(
                 svgPath: ImageConstant.imgBottomvector,
@@ -163,7 +188,13 @@ class SignInScreen extends GetWidget<SignInController> {
     Get.back();
   }
 
-  onTapSignin() {
-    signInController.signInUsingEmailPassword();
+  onTapSignin(context) async {
+    if (_formKey.currentState!.validate()) {
+      await signInController.signInUsingEmailPassword();
+    }
+
+    ScaffoldMessenger.of(context)
+      ..hideCurrentSnackBar()
+      ..showSnackBar(controller.snackBar);
   }
 }

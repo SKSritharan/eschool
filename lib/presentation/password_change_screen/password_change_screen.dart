@@ -48,11 +48,11 @@ class PasswordChangeScreen extends GetWidget<PasswordChangeController> {
                       focusNode: FocusNode(),
                       controller: controller.currentPasswordController,
                       hintText: "msg_current_password".tr,
+                      textInputAction: TextInputAction.next,
                       margin: getMargin(top: 2),
                       textInputType: TextInputType.visiblePassword,
                       validator: (value) {
-                        if (value == null ||
-                            (!isValidPassword(value, isRequired: true))) {
+                        if (value == null || value.isEmpty) {
                           return "Please enter valid password";
                         }
                         return null;
@@ -70,10 +70,12 @@ class PasswordChangeScreen extends GetWidget<PasswordChangeController> {
                       hintText: "lbl_new_password".tr,
                       margin: getMargin(top: 2),
                       textInputType: TextInputType.visiblePassword,
+                      textInputAction: TextInputAction.next,
                       validator: (value) {
-                        if (value == null ||
-                            (!isValidPassword(value, isRequired: true))) {
+                        if (value == null || value.isEmpty) {
                           return "Please enter valid password";
+                        } else if (value.length < 8) {
+                          return "Password must be at least 8 characters long.";
                         }
                         return null;
                       },
@@ -92,9 +94,8 @@ class PasswordChangeScreen extends GetWidget<PasswordChangeController> {
                       textInputAction: TextInputAction.done,
                       textInputType: TextInputType.visiblePassword,
                       validator: (value) {
-                        if (value == null ||
-                            (!isValidPassword(value, isRequired: true))) {
-                          return "Please enter valid password";
+                        if (value == controller.newPasswordController.value) {
+                          return "Password doesn't match";
                         }
                         return null;
                       },
@@ -104,7 +105,7 @@ class PasswordChangeScreen extends GetWidget<PasswordChangeController> {
                     text: "lbl_save".tr,
                     margin: getMargin(left: 26, top: 28, right: 26, bottom: 5),
                     alignment: Alignment.center,
-                    onTap: onTapSave,
+                    onTap: () => onTapSave(context),
                   ),
                 ]),
           ),
@@ -117,10 +118,12 @@ class PasswordChangeScreen extends GetWidget<PasswordChangeController> {
     Get.back();
   }
 
-  void onTapSave() async {
-    // if (_formKey.currentState!.validate()) {
-    //   await controller.changePassword();
-    // }
-    await controller.changePassword();
+  void onTapSave(context) async {
+    if (_formKey.currentState!.validate()) {
+      await controller.changePassword();
+      ScaffoldMessenger.of(context)
+        ..hideCurrentSnackBar()
+        ..showSnackBar(controller.snackBar);
+    }
   }
 }

@@ -35,6 +35,11 @@ class AnnouncementsListScreen extends GetWidget<AnnouncementsListController> {
                 builder: (context, snapshot) {
                   if (snapshot.hasData) {
                     final announcements = snapshot.data!;
+                    if (announcements.length == 0) {
+                      return Center(
+                        child: Text('No announcements added yet.'),
+                      );
+                    }
                     return ListView.builder(
                       itemCount: announcements.length,
                       itemBuilder: (context, index) {
@@ -66,7 +71,7 @@ class AnnouncementsListScreen extends GetWidget<AnnouncementsListController> {
                     );
                   } else if (snapshot.hasError) {
                     return Center(
-                      child: Text('Error fetching teachers'),
+                      child: Text('Error fetching announcements'),
                     );
                   } else {
                     return Center(

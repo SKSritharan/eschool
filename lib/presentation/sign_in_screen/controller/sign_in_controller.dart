@@ -2,6 +2,7 @@ import 'package:eschool/core/app_export.dart';
 import 'package:flutter/material.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:fluttertoast/fluttertoast.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 import 'package:eschool/presentation/sign_in_screen/models/sign_in_model.dart';
@@ -9,15 +10,17 @@ import 'package:eschool/presentation/sign_in_screen/models/sign_in_model.dart';
 class SignInController extends GetxController {
   TextEditingController emailvalueController = TextEditingController();
   TextEditingController passwordvalueController = TextEditingController();
-
+  late SnackBar snackBar;
+  var isNotVisible = true.obs;
   Rx<SignInModel> signInModelObj = SignInModel().obs;
 
   @override
   void onReady() {
     super.onReady();
+    isNotVisible.value = true;
   }
 
-  void signInUsingEmailPassword() async {
+  Future<void> signInUsingEmailPassword() async {
     FirebaseAuth auth = FirebaseAuth.instance;
     try {
       UserCredential userCredential = await auth.signInWithEmailAndPassword(
@@ -38,23 +41,33 @@ class SignInController extends GetxController {
 
         // Navigate to the proper screen based on the user role
         if (userRole == 'admin') {
-          Get.toNamed(AppRoutes.adminStudentsListTabContainerScreen);
+          Get.offNamed(AppRoutes.adminStudentsListTabContainerScreen);
         } else if (userRole == 'teacher') {
-          Get.toNamed(AppRoutes.teacherDasboardScreen);
+          Get.offNamed(AppRoutes.teacherDasboardScreen);
         } else if (userRole == 'student') {
-          Get.toNamed(AppRoutes.studentDashboardScreen);
+          Get.offNamed(AppRoutes.studentDashboardScreen);
         } else if (userRole == 'employee') {
-          Get.toNamed(AppRoutes.employeeTabContainerScreen);
+          Get.offNamed(AppRoutes.employeeTabContainerScreen);
         } else {
-          print('Unknown user role');
+          FirebaseAuth.instance.signOut();
+          snackBar = SnackBar(
+            content: Text("User account was deleted, Pleae contact the admin"),
+            duration: new Duration(seconds: 2),
+            backgroundColor: Colors.red,
+          );
         }
+        snackBar = SnackBar(
+          content: Text("Login Successfull!"),
+          duration: new Duration(seconds: 2),
+          backgroundColor: Colors.green,
+        );
       }
     } on FirebaseAuthException catch (error) {
-      if (error.code == 'user-not-found') {
-        print('No user found for that email.');
-      } else if (error.code == 'wrong-password') {
-        print('Wrong password provided.');
-      }
+      snackBar = SnackBar(
+        content: Text("${error.message}"),
+        duration: new Duration(seconds: 2),
+        backgroundColor: Colors.red,
+      );
     }
   }
 
@@ -76,7 +89,15 @@ class SignInController extends GetxController {
       prefs.setString('user_dob', userDoc.data()!['dob']);
       prefs.setString('user_image', userDoc.data()!['image']);
     } catch (e) {
-      print('Error fetching user profile data: $e');
+      Fluttertoast.showToast(
+        msg: 'Oh, oh! something went wrong.',
+        toastLength: Toast.LENGTH_LONG,
+        gravity: ToastGravity.BOTTOM,
+        timeInSecForIosWeb: 5,
+        backgroundColor: Colors.red,
+        textColor: Colors.white,
+        fontSize: 16.0,
+      );
     }
   }
 

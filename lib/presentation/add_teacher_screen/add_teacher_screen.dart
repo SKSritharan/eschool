@@ -133,13 +133,20 @@ class AddTeacherScreen extends GetWidget<AddTeacherController> {
                       controller: controller.teacherSubjectController,
                       hintText: "msg_select_a_subject".tr,
                       margin: getMargin(top: 1),
-                      textInputAction: TextInputAction.done),
+                      textInputAction: TextInputAction.done,
+                      validator: (value) {
+                        if (!isText(value)) {
+                          return "Please enter subject name";
+                        }
+                        return null;
+                      }),
                   CustomButton(
-                      height: getVerticalSize(45),
-                      text: "lbl_save".tr,
-                      margin: getMargin(left: 42, top: 50, right: 42),
-                      fontStyle: ButtonFontStyle.RalewayBold20,
-                      onTap: onTapSubmit),
+                    height: getVerticalSize(45),
+                    text: "lbl_save".tr,
+                    margin: getMargin(left: 42, top: 50, right: 42),
+                    fontStyle: ButtonFontStyle.RalewayBold20,
+                    onTap: () => onTapSubmit(context),
+                  ),
                 ]),
           ),
         ),
@@ -151,7 +158,12 @@ class AddTeacherScreen extends GetWidget<AddTeacherController> {
     Get.back();
   }
 
-  onTapSubmit() {
-    submitController.createTeacherAccount();
+  onTapSubmit(context) async {
+    if (_formKey.currentState!.validate()) {
+      await submitController.createTeacherAccount();
+      ScaffoldMessenger.of(context)
+        ..hideCurrentSnackBar()
+        ..showSnackBar(controller.snackBar);
+    }
   }
 }

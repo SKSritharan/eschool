@@ -89,18 +89,18 @@ class EmployeeTebContainer extends GetWidget<EmployeeTebContainerController> {
             floatingActionButton: SpeedDial(
               speedDialChildren: [
                 SpeedDialChild(
-                    child: const Icon(Icons.plus_one),
+                    child: const Icon(Icons.book),
                     foregroundColor: Colors.white,
                     label: "lbl_teacher".tr,
-                    backgroundColor: Colors.red,
+                    backgroundColor: ColorConstant.blueGray700,
                     onPressed: () {
                       onTapFloatingactionbuttonTeacher();
                     }),
                 SpeedDialChild(
-                    child: const Icon(Icons.plus_one),
+                    child: const Icon(Icons.school),
                     foregroundColor: Colors.white,
                     label: "lbl_student".tr,
-                    backgroundColor: Colors.red,
+                    backgroundColor: ColorConstant.blueGray700,
                     onPressed: () {
                       onTapFloatingactionbuttonStudent();
                     }),

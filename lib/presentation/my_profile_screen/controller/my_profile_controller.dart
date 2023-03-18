@@ -1,9 +1,11 @@
 import 'dart:io';
 
+import 'package:awesome_snackbar_content/awesome_snackbar_content.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/material.dart';
+import 'package:fluttertoast/fluttertoast.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 import 'package:eschool/core/app_export.dart';
@@ -15,6 +17,8 @@ class MyProfileController extends GetxController {
   TextEditingController phoneNoController = TextEditingController();
   TextEditingController dobController = TextEditingController();
   Rx<MyProfileModel> myProfileModelObj = MyProfileModel().obs;
+  late SnackBar snackBar;
+  final NetworkInfoI networkInfo = NetworkInfo(Connectivity());
 
   RxString name = "".obs;
   RxString email = "".obs;
@@ -51,35 +55,86 @@ class MyProfileController extends GetxController {
   final FirebaseStorage _storage = FirebaseStorage.instance;
 
   Future<void> uploadImageToStorage(File imageFile) async {
-    try {
-      String fileName = DateTime.now().millisecondsSinceEpoch.toString();
-      Reference reference = _storage.ref().child('profile/$fileName');
-      UploadTask uploadTask = reference.putFile(imageFile);
-      TaskSnapshot taskSnapshot = await uploadTask;
-      String downloadUrl = await taskSnapshot.ref.getDownloadURL();
-      imageUrl = downloadUrl;
-    } catch (e) {
-      print('Error uploading image to Firebase Storage: $e');
+    bool isConnected = await networkInfo.isConnected();
+    if (isConnected) {
+      try {
+        String fileName = DateTime.now().millisecondsSinceEpoch.toString();
+        Reference reference = _storage.ref().child('profile/$fileName');
+        UploadTask uploadTask = reference.putFile(imageFile);
+        TaskSnapshot taskSnapshot = await uploadTask;
+        String downloadUrl = await taskSnapshot.ref.getDownloadURL();
+        imageUrl = downloadUrl;
+      } catch (e) {
+        Fluttertoast.showToast(
+          msg: 'Error while uploading image.',
+          toastLength: Toast.LENGTH_LONG,
+          gravity: ToastGravity.BOTTOM,
+          timeInSecForIosWeb: 5,
+          backgroundColor: Colors.red,
+          textColor: Colors.white,
+          fontSize: 16.0,
+        );
+      }
+    } else {
+      Fluttertoast.showToast(
+        msg: 'No internet connection. Please turn on your internet.',
+        toastLength: Toast.LENGTH_LONG,
+        gravity: ToastGravity.BOTTOM,
+        timeInSecForIosWeb: 5,
+        backgroundColor: Colors.red,
+        textColor: Colors.white,
+        fontSize: 16.0,
+      );
     }
   }
 
   //update user data
   Future<void> updateUserData() async {
+    bool isConnected = await networkInfo.isConnected();
     final userId = FirebaseAuth.instance.currentUser!.uid;
-    try {
-      final userRef =
-          FirebaseFirestore.instance.collection('users').doc(userId);
+    if (isConnected) {
+      try {
+        final userRef =
+            FirebaseFirestore.instance.collection('users').doc(userId);
 
-      await userRef.update({
-        'name': nameController.text,
-        'phoneNo': phoneNoController.text,
-        'dob': dobController.text,
-        'image': imageUrl
-      });
-      Get.snackbar('Success', 'Prodile Updated successfully');
-    } catch (error) {
-      Get.snackbar('Error', 'Failed to update profile');
-      print(error);
+        await userRef.update({
+          'name': nameController.text,
+          'phoneNo': phoneNoController.text,
+          'dob': dobController.text,
+          'image': imageUrl
+        });
+        snackBar = SnackBar(
+          elevation: 0,
+          behavior: SnackBarBehavior.floating,
+          backgroundColor: Colors.transparent,
+          content: AwesomeSnackbarContent(
+            contentType: ContentType.success,
+            title: 'Success',
+            message: 'Profile updated successfully.',
+          ),
+        );
+      } on FirebaseAuthException catch (e) {
+        snackBar = SnackBar(
+          elevation: 0,
+          behavior: SnackBarBehavior.floating,
+          backgroundColor: Colors.transparent,
+          content: AwesomeSnackbarContent(
+            contentType: ContentType.failure,
+            title: 'Oh, oh!',
+            message: 'Profile updating process has failed.',
+          ),
+        );
+      }
+    } else {
+      Fluttertoast.showToast(
+        msg: 'No internet connection. Please turn on your internet.',
+        toastLength: Toast.LENGTH_LONG,
+        gravity: ToastGravity.BOTTOM,
+        timeInSecForIosWeb: 5,
+        backgroundColor: Colors.red,
+        textColor: Colors.white,
+        fontSize: 16.0,
+      );
     }
   }
 
