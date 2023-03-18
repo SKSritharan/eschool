@@ -245,7 +245,6 @@ class MyProfileScreen extends GetWidget<MyProfileController> {
     ScaffoldMessenger.of(context)
       ..hideCurrentSnackBar()
       ..showSnackBar(controller.snackBar);
-    Navigator.of(context).pop();
   }
 
   void onTapDeleteUser(context) async {

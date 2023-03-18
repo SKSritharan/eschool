@@ -82,6 +82,7 @@ class SignInController extends GetxController {
 
       // Store the user profile data in shared preferences
       SharedPreferences prefs = await SharedPreferences.getInstance();
+      prefs.setString('user_id', userDoc.id);
       prefs.setString('user_name', userDoc.data()!['name']);
       prefs.setString('user_email', userDoc.data()!['email']);
       prefs.setString('user_role', userDoc.data()!['role']);

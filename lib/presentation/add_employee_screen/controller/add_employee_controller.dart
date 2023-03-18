@@ -73,7 +73,7 @@ class AddEmployeeController extends GetxController {
     if (isConnected) {
       try {
         // Create the user account using Firebase Authentication
-        UserCredential userCredential =
+        final UserCredential userCredential =
             await FirebaseAuth.instance.createUserWithEmailAndPassword(
           email: employeeEmailController.text,
           password: employeePhoneController.text,

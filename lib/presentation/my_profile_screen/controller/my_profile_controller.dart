@@ -19,9 +19,9 @@ class MyProfileController extends GetxController {
   Rx<MyProfileModel> myProfileModelObj = MyProfileModel().obs;
   late SnackBar snackBar;
   final NetworkInfoI networkInfo = NetworkInfo(Connectivity());
-  final FirebaseAuth _auth = FirebaseAuth.instance;
-  final FirebaseFirestore _firestore = FirebaseFirestore.instance;
+  late SharedPreferences prefs;
 
+  RxString id = "".obs;
   RxString name = "".obs;
   RxString email = "".obs;
   RxString phoneNo = "".obs;
@@ -38,7 +38,8 @@ class MyProfileController extends GetxController {
   @override
   void onInit() async {
     super.onInit();
-    SharedPreferences prefs = await SharedPreferences.getInstance();
+    prefs = await SharedPreferences.getInstance();
+    id.value = prefs.getString("user_id") ?? "";
     name.value = prefs.getString("user_name") ?? "";
     phoneNo.value = prefs.getString("user_phoneNo") ?? "";
     dob.value = prefs.getString("user_dob") ?? "";
@@ -92,11 +93,12 @@ class MyProfileController extends GetxController {
 
   //update user data
   Future<void> updateUserData() async {
-    final userId = _auth.currentUser!.uid;
+    prefs = await SharedPreferences.getInstance();
     bool isConnected = await networkInfo.isConnected();
     if (isConnected) {
       try {
-        final userRef = _firestore.collection('users').doc(userId);
+        final userRef =
+            FirebaseFirestore.instance.collection('users').doc(id.value);
         await userRef.update({
           'name': nameController.text,
           'phoneNo': phoneNoController.text,
@@ -115,11 +117,10 @@ class MyProfileController extends GetxController {
         );
 
         //set shared prefference values
-        SharedPreferences prefs = await SharedPreferences.getInstance();
         prefs.setString("user_name", nameController.text);
         prefs.setString("user_phoneNo", phoneNoController.text);
         prefs.setString("user_dob", dobController.text);
-        prefs.setString("user_image", imageUrl as String);
+        prefs.setString("user_image", imageUrl);
       } on FirebaseAuthException catch (e) {
         snackBar = SnackBar(
           elevation: 0,
@@ -128,7 +129,7 @@ class MyProfileController extends GetxController {
           content: AwesomeSnackbarContent(
             contentType: ContentType.failure,
             title: 'Oh, oh!',
-            message: 'Profile updating process has failed.',
+            message: 'Profile updating process has failed.:',
           ),
         );
       }
@@ -147,15 +148,18 @@ class MyProfileController extends GetxController {
 
   //delete user account
   Future<void> deleteAndLogoutUser() async {
-    User? currentUser = _auth.currentUser;
+    User? currentUser = FirebaseAuth.instance.currentUser;
 
-    if (currentUser != null) {
+    if (id.value != null) {
       try {
         // Delete user document from Firestore users collection
-        await _firestore.collection('users').doc(currentUser.uid).delete();
+        await FirebaseFirestore.instance
+            .collection('users')
+            .doc(id.value)
+            .delete();
 
         // Delete user account from Firebase Authentication
-        await currentUser.delete();
+        // await currentUser.delete();
 
         // Show success message and redirect to login screen
         snackBar = SnackBar(
@@ -169,7 +173,7 @@ class MyProfileController extends GetxController {
           ),
         );
         // Log out user
-        await _auth.signOut();
+        await FirebaseAuth.instance.signOut();
       } catch (e) {
         // Show error message
         snackBar = SnackBar(
