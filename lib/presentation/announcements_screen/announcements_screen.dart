@@ -79,6 +79,6 @@ class AnnouncementsScreen extends GetWidget<AnnouncementsController> {
 
   onTapSubmit(context) async {
     FocusScope.of(context).requestFocus(new FocusNode());
-    await controller.createAnnouncement;
+    controller.createAnnouncement();
   }
 }

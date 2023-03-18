@@ -80,9 +80,9 @@ class MyProfileScreen extends GetWidget<MyProfileController> {
                                   ],
                                 ),
                                 Container(
-                                  height: getVerticalSize(105),
+                                  height: getVerticalSize(100),
                                   width: getHorizontalSize(100),
-                                  margin: getMargin(top: 20),
+                                  margin: getMargin(top: 5),
                                   child: CustomImagePicker(
                                     size: 50,
                                     currentImage: controller
